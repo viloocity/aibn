@@ -1,0 +1,195 @@
+# URN Namespace Registration Template: aibn
+
+## Namespace ID
+
+aibn (formal NID requested). The string conforms to the NID syntax requirements of \[RFC8141\]. The visual and phonetic similarity to the registered NID isbn is acknowledged and justified in Additional Information.
+
+## Namespace Name
+
+AI Bibliographic Name (AIBN), where "AI" abbreviates "Artificial Intelligence."
+
+## Registration Information
+
+Registration version number: 1
+
+Date: \[date of submission to IANA — to be completed\]
+
+Declared registrant of the namespace (referred to below as the "Registry Operator"):
+
+* Registrant: viloocity (eenmanszaak, KvK 99461056 )  
+* Address: Willem van Nieuwenhuizenlaan 24, 2493 CC Den Haag, Netherlands
+
+Designated contact person:
+
+* Name: Joerg Fritsch  
+* Email: [aibn-admin@viloocity.press](mailto:aibn-admin@viloocity.press)  
+* Postal: Willem van Nieuwenhuizenlaan 24, 2493 CC Den Haag, Netherlands
+
+## Purpose
+
+This namespace provides persistent, location-independent identifiers (AIBNs) for works created in whole or in part with the assistance of generative AI systems, for use by individuals, publishers, and organizations acting on behalf of such works.
+
+Designation. AIBN expands to *AI Bibliographic Name*. "Bibliographic" is used in its information-science sense and covers resources of any medium, not only text. "Name" rather than "Number" reflects that an AIBN is a structured name — alphanumeric, variable-length, and assignable by holders as numeric sequences, mnemonics, or opaque codes (see Syntax) — in keeping with the "Name" in Uniform Resource Name \[RFC8141\].
+
+AIBN is a complement to ISBN, not a replacement. ISBN (ISO 2108\) identifies monographic publications at manifestation level and is assigned through the International ISBN Agency network and the publishing supply chain. Works involving AI generation can in some channels obtain ISBNs; however, the ISBN metadata model has no fields for AI provenance (AI system and version, degree of involvement) or for a responsible human party distinct from an "author," and not all registration channels accommodate such works. AIBN provides an identification layer that records this provenance persistently. A single work may carry an ISBN, a DOI, and an AIBN simultaneously.
+
+Why existing namespaces do not suffice: no existing NID or persistent-identifier system combines (1) work-level identification, (2) open assignment to any natural person or legal entity — not conditioned on copyright subsistence, publisher status, or supply-chain participation, (3) a metadata model with a mandatory responsible-party field and optional AI-provenance fields, and (4) URN-framework persistence and resolution semantics. isbn is manifestation-level and supply-chain-administered; issn covers serials; DOI, Handle, and ARK are persistent-identifier systems outside the URN framework with their own assignment policies; urn:uuid provides uniqueness without an assignment authority, metadata, or resolution.
+
+Non-effect on rights: An AIBN is a technical identifier. Registration does not create, imply, transfer, or substitute for copyright, related rights, moral rights, or legal personality, and does not constitute a determination of authorship or ownership. The copyright status of a work is determined solely by applicable law and is independent of AIBN assignment.
+
+## Syntax
+
+*The key words MUST, MUST NOT, REQUIRED, SHALL, SHOULD, MAY, etc. are to be interpreted as described in BCP 14 \[RFC2119\]\[RFC8174\].*
+
+The Namespace Specific String (NSS) has the following syntax (ABNF per \[RFC5234\]):
+
+```abnf
+AIBN-NSS    = reg-segment ":" pub-segment
+reg-segment = 1*63seg-char
+pub-segment = 1*63seg-char
+seg-char    = ALPHA / DIGIT / "-"
+```
+
+&nbsp;
+
+ALPHA and DIGIT denote ASCII characters only. Additional lexical constraints not expressible in ABNF:
+
+* Each segment MUST begin and end with an alphanumeric character.  
+* Assigned identifiers MUST be lowercase. The grammar permits uppercase for syntactic compatibility, but no conforming AIBN is ever assigned with uppercase characters.  
+* Exactly one ":" appears, as the separator; segments never contain ":".  
+* The alphabet is a subset of *unreserved* (\[RFC3986\] §2.3). Percent-encoding MUST NOT appear in any assigned AIBN. Because NSS comparison is octet-wise, a URN containing percent-encoded octets (e.g., %61 for a) never matches an assigned AIBN.
+
+Length: The NSS MUST NOT exceed 128 characters. The q-, r-, and f-components (below) are additional to this limit. Software generating URNs with such components SHOULD keep the complete URN within 512 characters for compatibility with common URI-handling implementations.
+
+Component handling:
+
+* q-component: permitted; not part of AIBN identity; passed to the resolution service. The q-component is introduced by `?=` under \[RFC8141\]. AIBN defines no namespace-specific q-component parameters at initial registration. HTTP clients MAY use the endpoint-specific format query parameter as described under Resolution; this is a URL query parameter, not an AIBN URN component.  
+* r-component: introduced by `?+` under \[RFC8141\]; no namespace-specific semantics are defined, and its use is not recommended pending standardization of r-component semantics.  
+* f-component: as per \[RFC3986\]/\[RFC8141\]; interpreted client-side; not part of identity.
+
+Lexical equivalence:
+
+* The NID is compared case-insensitively, per URN syntax.  
+* The NSS is compared case-sensitively, octet-wise. Because only lowercase is assigned, two URNs denote the same AIBN if and only if their NIDs match case-insensitively and their NSSs are octet-identical.  
+* q-, r-, and f-components are ignored for identity and equivalence.
+
+Semantics:
+
+* reg-segment: an opaque registrant code identifying an AIBN holder. It is unique across the entire aibn namespace and is assigned by the Registry Operator. It carries no embedded meaning.  
+* pub-segment: an identifier, unique within its reg-segment, for a single creative work (see Granularity, under Assignment). It is assigned by the holder, which MAY use numeric sequences, mnemonics, or opaque codes; the syntax imposes no scheme.  
+* The identified resource is the work itself, not any particular manifestation, embodiment, or location of it.
+
+Examples (the reg-segment example is permanently reserved and can never be assigned):
+
+```
+urn:aibn:example:2026-0001
+urn:aibn:example:first-light-7a
+```
+
+&nbsp;
+
+Apparent patterns in pub-segments (dates, sequence numbers, words) are conventions of the holder with no syntax-defined semantics; consumers MUST NOT parse segments for meaning.
+
+## Assignment
+
+Assignment model (hierarchical):
+
+* The Registry Operator is the sole authority for reg-segments. It assigns them on application, guarantees their global uniqueness, and never reassigns a reg-segment — including after a holder becomes inactive or dissolves. The reg-segment assignment function is not delegated to third parties.  
+* Within its reg-segment, a holder assigns pub-segments and is responsible for their uniqueness within that segment. The holder MUST record each pub-segment in the AIBN database at or before its first public use; the database rejects duplicates within a segment.  
+* The combined NSS is therefore globally unique.
+
+Identifier persistence:
+
+* An assigned AIBN is never reused or reassigned under any circumstances.  
+* If a work is deleted, withdrawn, or retracted, the AIBN remains valid; the database status changes (see below) and at minimum the identifier, status, and registration date are retained; the title is retained only insofar as applicable privacy and other law permits.  
+* Metadata corrections are recorded with a change log; the identifier itself never changes.  
+* Lifecycle statuses: active (default), retracted (withdrawn by the holder, or removed by the Registry Operator for policy violation), superseded (replaced by a new AIBN for a substantially new version, with an optional cross-reference). No status transition ever frees an identifier for reassignment.
+
+Granularity: An AIBN identifies one work at creation level. A substantially revised or new edition SHOULD receive a new AIBN, optionally cross-linked via supersedes/superseded-by. Minor corrections, formatting changes, and reissue in a new medium or format (print, EPUB, audiobook, etc.) do not receive a new AIBN and are not recorded by the registry. (Contrast: ISBN is assigned per manifestation.) Manifestations of a work are identified by format-level systems such as ISBN and MAY be cross-referenced in AIBN metadata; current availability is a property of resolution targets, not of the registry record.
+
+Openness and criteria: Assignment is open. Any natural person or legal entity may obtain a reg-segment upon application, subject to published criteria: (a) acceptance of the Registration Rules; (b) provision of a private, verifiable contact channel. No fees are charged at launch; any future fees will be published in advance in the Registration Rules. Assignment is not conditioned on copyright subsistence, publication status, nationality, or membership in any publishing organization. Multiple AIBNs MAY be assigned to the same work by different parties; the Registry Operator does not adjudicate such disputes, and metadata MAY cross-reference other identifiers for the same work or party.
+
+Metadata and validation:
+
+* Minimum metadata at registration: work title; work type (a content type from the controlled vocabulary published in the Metadata Schema, e.g., text, image, audio, audiovisual, software, dataset, multimodal, other); creation date; responsible natural person or entity; private contact channel. Optional: pen name for public display; form of work (e.g., novel, report, image series); language (BCP 47 \[RFC5646\] tag, e.g., en, fr-CA, zh-Hans; more than one MAY be given for multilingual works); description (short abstract); creation carrier (MIME type of the form in which the work was first fixed, e.g., text/markdown); AI system name and version; degree of AI involvement (self-declared value from a controlled vocabulary published in the Metadata Schema, e.g., ai-generated, ai-assisted, human-with-ai-tools); references to ISBN, DOI, ISNI, ORCID. Manifestation data (formats, editions, availability) is intentionally absent from the schema; see Granularity.  
+* All metadata is self-declared. The Registry Operator validates format and completeness only; it does not verify authorship, ownership, or factual accuracy, and states this in all outputs. The Registry Operator MAY refuse or retract registrations that are malformed or abusive; an appeals process is defined in the Registration Rules \[URL to be filled\].  
+* Third-party validation is supported by (a) a public HTTPS lookup API returning the public metadata record, with documented rate limits, and (b) a complete bulk export of the public database (daily snapshots plus an append-only change log). The authoritative database is the sole source of truth for validity; this is the mechanism for detecting forged or unauthorized AIBNs.
+
+Continuity: The Registry Operator will maintain a data-escrow arrangement with an independent escrow agent (agent and terms to be published in the Registration Rules before the registry enters public service) and maintains a succession plan. If operation ceases without a successor, the escrowed database will be published in static form so identifiers remain verifiable, and the IANA registration record will be updated per the procedures of \[RFC8141\] (e.g., to mark resolution inactive). Identifiers remain syntactically valid URNs regardless of resolution status.
+
+## Security and Privacy Considerations
+
+Security:
+
+* AIBNs are identifiers, not credentials. They MUST NOT be used for authentication, authorization, or access control, and MUST NOT be treated as secrets or capability tokens.  
+* Implementations comparing AIBNs MUST compare the NSS octet-wise and the NID case-insensitively (see Lexical Equivalence). The lowercase-only assignment rule eliminates most case-mismatch errors in practice.  
+* Identifiers are opaque and MUST NOT be constructed to embed personal or sensitive data.  
+* The authoritative database (lookup API and bulk export) is the only validity oracle; resolvers SHOULD resolve against it or a verified mirror.
+
+Privacy:
+
+* *Terminology:* "Registry Operator" denotes the URN registrant; "holder" denotes a party assigned a reg-segment.  
+* The public record never requires a natural person's real name; a pen name or organization name MAY be displayed instead. A private, verifiable contact channel is required at registration but is not published.  
+* The Registry Operator acts as data controller for personal data it processes and complies with the General Data Protection Regulation (EU) 2016/679 (GDPR). Data is collected minimally; the retention policy is published in the Registration Rules.  
+* On a valid deletion request, personal data is removed from public display; where no legal retention obligation applies, it is also erased from the operator's records. The identifier persists with status retracted and a non-identifying tombstone record. The minimum retained record contains the identifier, status, and registration date; titles or other potentially identifying metadata are retained only where lawful. This trade-off between privacy and identifier persistence is deliberate and disclosed.  
+* Optional AI-provenance fields (AI system version, training-data references) raise confidentiality (commercial sensitivity) rather than privacy concerns; their publication is at the holder's discretion, and the public database provides field-level visibility controls.
+
+## Interoperability
+
+* aibn and isbn are distinct NIDs; there is no syntactic conflict within the URN framework. The similarity of the strings is a human-factors risk, addressed in the NID justification (Additional Information). Systems SHOULD display the full urn:aibn: prefix and SHOULD NOT abbreviate the NID.  
+* AIBN records MAY reference ISBNs; the two systems identify resources at different granularities (ISBN: manifestation; AIBN: work).  
+* ISNI \[ISO27729\] and ORCID identify parties; AIBN identifies works. The metadata schema includes optional ISNI/ORCID fields for responsible parties; the Registry Operator does not issue ISNIs.  
+* DOI \[ISO26324\] and Handle are persistent-identifier systems outside the URN framework. The same work MAY carry both a DOI and an AIBN; cross-system resolution is a matter for the respective resolvers and is not defined here.  
+* ARK identifiers overlap functionally; AIBN's distinguishing features are as stated under Purpose.
+
+## Resolution
+
+Status: Resolution services have not yet been deployed. Resolution will be provided by the public HTTPS lookup API described under Assignment (Metadata and validation); no separate resolution infrastructure is required. The IANA registration record will be updated if additional resolution mechanisms are added.
+
+Mechanism:
+
+* HTTPS resolution: the Registry Operator will operate one or more public HTTPS endpoints (URLs published in the Registration Rules) that accept an AIBN and return the public metadata record. This is the same service as the validation lookup API described under Assignment; validation and resolution differ in intent, not implementation. The endpoint will accept a complete AIBN URN or its NSS as a lookup key. Exact endpoint URL, request syntax, HTTP status codes for unknown and withdrawn identifiers, and error representations MUST be published in the Registration Rules before public service launch. The default representation is JSON-LD; MARCXML and plain text may be requested through HTTP content negotiation or an endpoint-local `format=marcxml` or `format=text` URL query parameter. These endpoint parameters are not URN q- or r-components. The JSON-LD schema is published and versioned (see Documentation).  
+* Service discovery: no DNS-based urn.arpa DDDS or NAPTR records are required for this namespace registration, and none are currently proposed. The authoritative HTTPS service URL will be published in the Registration Rules. A separate DNS-based discovery registration (for example, under applicable DDDS/NAPTR procedures) may be pursued in the future if warranted, subject to the relevant separate registration procedures; this is an option, not a commitment.  
+* Mirrors: third parties MAY mirror the bulk database export and operate resolvers; criteria for recognized resolvers (freshness requirements, provenance verification) will be published. The Registry Operator's endpoint remains authoritative.  
+* r-component: no special semantics (see Syntax).
+
+## Documentation
+
+This registration template is the foundational specification. Supplementary documents (publish stable URLs before submission):
+
+* *AIBN Registration Rules vX.Y* — assignment criteria, fees, appeals, takedown, data-retention policy, escrow terms, resolution endpoint syntax.  
+* *AIBN Metadata Schema vX.Y* — field definitions, controlled vocabularies (work type; degree of AI involvement), JSON-LD context (work type maps to dc:type, language to dc:language, description to dc:description), MARCXML mapping (work type corresponds to MARC 336, content type), HTTPS endpoint query parameters.  
+* Governance change log.
+
+References:
+
+* Normative: \[RFC8141\] (Uniform Resource Names; obsoletes RFC 2141 and RFC 3406), \[RFC3986\], \[RFC5234\], \[RFC2119\]/\[RFC8174\], \[RFC5646\] (BCP 47, language tags).  
+* Informative: ISO 2108 (ISBN), ISO 27729 (ISNI), ISO 26324 (DOI), RFC 3044 (urn:issn, cited as NID-similarity precedent), RFC 2606 (reserved names for examples), RFC 4848 (U-NAPTR, background only; no DNS discovery is specified).
+
+## Additional Information
+
+NID confusability justification: aibn is similar to the registered NID isbn. The similarity is intentional, and the parallel is explicit in the namespace's designation: both namespaces provide bibliographic identification, and *AI Bibliographic Name* deliberately echoes *International Standard Book Number*. The designations also differ at a documentable point — ISBN identifiers are fixed-length, digits-only numbers assigned per manifestation, whereas AIBNs are variable-length alphanumeric names assigned per work, which supports distinguishing the two in prose and documentation. Precedent: isbn and issn are both registered NIDs differing by a single character; any resulting human confusion has been managed without renaming. Mitigation: full-prefix display (urn:aibn:) is recommended, and the two namespaces will never share assignment databases or resolution infrastructure.
+
+Comparison with ISBN (informative): It is not the case that ISBN categorically excludes AI-generated works; such works have obtained ISBNs through self-publishing channels. The gaps AIBN addresses are (a) absence of AI-provenance metadata, (b) assignment tied to the publishing supply chain, and (c) restrictive policies in some channels. AIBN is a supplement to, not a replacement for, ISBN.
+
+Identifier capacity (informative):
+
+* *Per-holder space:* each publication-segment consists of 1–63 characters using lowercase alphanumeric characters, with hyphens permitted internally. Each alphanumeric character carries ≈ 5.17 bits of identifier space versus ≈ 3.32 for a decimal digit. Six-character lowercase alphanumeric publication-segments alone provide 36⁶ ≈ 2.2 × 10⁹ distinct values per holder (a conservative subset of the full syntax) — on the order of the entire ISBN-13 space under its current 978 and 979 GS1 prefixes (approximately 2 × 10⁹); ten characters provide 36¹⁰ ≈ 3.7 × 10¹⁵.  
+* *Namespace-level space:* overall capacity is the product of the number of assigned reg-segments and each holder's local publication space. The reg-segment space is drawn from the same 36-symbol, 63-character alphabet; even four-character lowercase alphanumeric reg-segments alone would accommodate 36⁴ ≈ 1.7 million holders. The combined space is, for practical purposes, unbounded.  
+* *No serialization bottleneck:* because assignment is hierarchical (see Assignment), holders mint publication-segments locally and in parallel. The Registry Operator's involvement is required once per holder, not once per identifier, so growth in publication volume does not constrain identifier availability.  
+* *Granularity:* AIBN assigns one identifier per work (see Assignment, Granularity). Systems that assign per manifestation consume identifiers in proportion to the number of published formats of each work; AIBN's identifier consumption scales with works created rather than formats distributed.  
+* *Consistency with the designation:* publication-segments are not restricted to digits; holders MAY assign numeric, mnemonic, or opaque values (see Syntax). This flexibility is consistent with the designation "Name" rather than "Number."  
+* *Scope of these comparisons:* no claim of near-term exhaustion of the ISBN space is made or implied. The comparisons above are illustrative of per-holder and namespace capacity; the ISBN system retains substantial headroom and established extension mechanisms (e.g., additional GS1 prefixes, as demonstrated by the addition of 979 alongside 978). AIBN's rationale (see Purpose) does not depend on ISBN capacity.  
+* *Demand context:* The volume of self-published books has grown substantially, creating increasing demand for scalable publication and identifier-assignment infrastructure. According to Bowker's ISBN-based U.S. publishing statistics, reported by *Publishers Weekly* on 17 March 2026, the number of self-published titles increased from 2,459,367 in 2022 to 3,529,980 in 2025, representing 43.5% growth over three years, including a 38.7% increase between 2024 and 2025 alone (Jim Milliot, "[Book Output Topped Four Million in 2025](https://www.publishersweekly.com/pw/by-topic/industry-news/publisher-news/article/99943-book-output-topped-4-million-in-2025.html)," *Publishers Weekly*, 17 March 2026). These figures count ISBN assignments and therefore manifestations rather than works; work-level volume may differ. Alongside this expansion, the proliferation of AI-assisted publishing has raised concerns about automated, high-volume submissions, prompting platforms to introduce publication restrictions. In September 2023, Amazon Kindle Direct Publishing (KDP) introduced a limit of three new titles per publisher per day as a measure against potential abuse, although Amazon stated that it had not observed an overall spike in publication volume at that time (Jim Milliot, "[Amazon's Kindle Direct Publishing Will Limit Daily Number of New Titles](https://www.publishersweekly.com/pw/by-topic/digital/content-and-e-books/article/93207-kdp-will-limit-daily-number-of-new-titles.html)," *Publishers Weekly*, 18 September 2023). Amazon's subsequently revised [KDP publication guidelines](https://kdp.amazon.com/en_US/help/topic/G202172740) specify a limit of two new titles per format per week (accessed 16 October 2026). Although these statistics do not establish what proportion of publication growth is attributable to AI-generated content, they demonstrate the increasing scale of self-publishing and the emergence of platform-level controls on submission volumes. The identifier-assignment architecture is designed to accommodate continued growth in publication volume without imposing corresponding constraints on identifier availability, decoupling identifier capacity from platform-specific publication limits and the rate of new content generation.
+
+Legal status: Registration creates no rights and makes no representation of authorship or ownership; an AIBN is solely a technical identifier.
+
+Governance: The Registry Operator maintains the Registration Rules and Metadata Schema. Material changes (assignment mechanism, uniqueness policy, resolution requirements) are published for public comment for at least 30 days before taking effect and recorded in the change log. Changes to the IANA registration record are filed per the namespace-change procedures of \[RFC8141\].
+
+Reserved segments: the reg-segment values example, test, invalid, and reserved are permanently reserved for documentation, examples, and testing, and will never be assigned.
+
+Typo resistance: reg-segments are assigned as opaque codes with no embedded meaning. A check-character scheme was considered and is not used in version 1; mistyped AIBNs are expected to fail lookup against the authoritative database.
+
+## Revision Information
+
+None. This document requests the initial registration of the aibn formal NID.
