@@ -1,0 +1,14 @@
+{
+  "@context": {
+    "title": "http://purl.org/dc/terms/title",
+    "workType": "http://purl.org/dc/terms/type",
+    "language": "http://purl.org/dc/terms/language",
+    "description": "http://purl.org/dc/terms/description",
+    "creationDate": "http://purl.org/dc/terms/created",
+    "responsibleParty": "http://purl.org/dc/terms/creator",
+    "formOfWork": "https://aibn.viloocity.press/ns/formOfWork",
+    "creationCarrier": "https://aibn.viloocity.press/ns/creationCarrier",
+    "aiSystem": "https://aibn.viloocity.press/ns/aiSystem",
+    "degreeOfAiInvolvement": "https://aibn.viloocity.press/ns/degreeOfAiInvolvement"
+  }
+}
