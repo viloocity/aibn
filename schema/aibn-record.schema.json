@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aibn.viloocity.press/schema/aibn-record-1.0.0.json",
+  "title": "AIBN record",
+  "description": "Machine-readable registration template and public record schema for AI Bibliographic Names (AIBN), as specified in the 'aibn' URN namespace registration template. The document root validates the public registry record returned by the lookup API. The submission payload (what a holder sends when registering a work) is validated against '#/$defs/submission'. Manifestation data (formats, editions, availability) is deliberately absent from this schema; see Granularity in the namespace registration template. The custom annotation keyword 'x-visibility' marks each field 'public' (published in the record), 'private' (collected, never published), or 'registry' (assigned by the Registry Operator, not settable by holders).",
+
+  "type": "object",
+  "required": ["aibn", "regSegment", "pubSegment", "status", "registrationDate",
+               "title", "workType", "creationDate", "responsibleParty"],
+  "properties": {
+    "aibn": {
+      "type": "string",
+      "description": "Canonical URN form. The NID is case-insensitive per RFC 8141; this field stores the canonical all-lowercase form.",
+      "pattern": "^urn:aibn:[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?:[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$",
+      "x-visibility": "registry"
+    },
+    "regSegment": {
+      "type": "string",
+      "description": "Opaque registrant code, unique across the namespace, assigned by the Registry Operator. Pattern encodes the ABNF segment rule (1-63 chars, lowercase alphanumerics and internal hyphens, alphanumeric endpoints).",
+      "pattern": "^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$",
+      "x-visibility": "registry"
+    },
+    "pubSegment": {
+      "type": "string",
+      "description": "Work identifier, unique within its regSegment, assigned by the holder. Same segment rule.",
+      "pattern": "^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$",
+      "x-visibility": "registry"
+    },
+    "status": {
+      "enum": ["active", "retracted", "superseded"],
+      "default": "active",
+      "description": "Lifecycle status. No status transition ever frees an identifier for reassignment.",
+      "x-visibility": "registry"
+    },
+    "registrationDate": {
+      "type": "string",
+      "format": "date-time",
+      "x-visibility": "registry"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "x-visibility": "public"
+    },
+    "workType": { "$ref": "#/$defs/workType", "x-visibility": "public" },
+    "creationDate": {
+      "type": "string",
+      "format": "date",
+      "x-visibility": "public"
+    },
+    "responsibleParty": { "$ref": "#/$defs/responsibleParty", "x-visibility": "public" },
+    "penName": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Displayed instead of responsibleParty.name in the public record when present.",
+      "x-visibility": "public"
+    },
+    "formOfWork": {
+      "type": "string",
+      "description": "e.g., novel, report, image series.",
+      "x-visibility": "public"
+    },
+    "language": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/bcp47" },
+      "x-visibility": "public"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Short abstract.",
+      "x-visibility": "public"
+    },
+    "creationCarrier": {
+      "type": "string",
+      "pattern": "^[a-z0-9!#$&.+^_-]+/[a-z0-9!#$&.+^_-]+$",
+      "description": "MIME type of the form in which the work was first fixed, e.g., text/markdown.",
+      "x-visibility": "public"
+    },
+    "aiSystem": {
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string" }
+      },
+      "x-visibility": "public"
+    },
+    "degreeOfAiInvolvement": { "$ref": "#/$defs/degreeOfAiInvolvement", "x-visibility": "public" },
+    "references": { "$ref": "#/$defs/references", "x-visibility": "public" },
+    "supersedes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^urn:aibn:[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?:[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$"
+      },
+      "description": "AIBNs of previous versions superseded by this work. Holder-declared; existence verified by the registry.",
+      "x-visibility": "public"
+    },
+    "supersededBy": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^urn:aibn:[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?:[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$"
+      },
+      "x-visibility": "registry"
+    }
+  },
+
+  "$defs": {
+    "workType": {
+      "type": "string",
+      "enum": ["text", "image", "audio", "audiovisual", "software", "dataset", "multimodal", "other"],
+      "description": "Content type of the work (property of the work, not of any manifestation). Maps to dc:type / MARC 336."
+    },
+    "degreeOfAiInvolvement": {
+      "type": "string",
+      "enum": ["ai-generated", "ai-assisted", "human-with-ai-tools"],
+      "description": "Self-declared; not verified by the Registry Operator."
+    },
+    "bcp47": {
+      "type": "string",
+      "pattern": "^[A-Za-z]{2,8}(-[A-Za-z0-9]{1,8})*$",
+      "description": "BCP 47 [RFC5646] language tag. Pattern is deliberately lenient; full grammar validation (grandfathered tags, canonicalization) is procedural."
+    },
+    "responsibleParty": {
+      "type": "object",
+      "required": ["name", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "enum": ["natural person", "legal entity"] },
+        "name": { "type": "string", "minLength": 1 },
+        "isni": { "type": "string", "pattern": "^\\d{15}[\\dX]$" },
+        "orcid": { "type": "string", "pattern": "^\\d{4}-\\d{4}-\\d{4}-\\d{3}[\\dX]$" }
+      }
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "isbn": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^97[89][0-9- ]{10,16}$" },
+          "description": "ISBN-13 references, hyphenated or not. Group structure and check digit validated procedurally. A work may reference several ISBNs (one per manifestation)."
+        },
+        "doi": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^10\\.[0-9]{4,9}/\\S+$" }
+        }
+      }
+    },
+    "contact": {
+      "type": "object",
+      "required": ["email"],
+      "additionalProperties": false,
+      "properties": {
+        "email": { "type": "string", "format": "email" },
+        "postalAddress": { "type": "string" }
+      },
+      "description": "Private, verifiable contact channel. Never published; not part of the public record.",
+      "x-visibility": "private"
+    },
+    "visibility": {
+      "type": "object",
+      "description": "Holder-elected visibility for optional public fields. Required minimum fields (title, workType, creationDate, responsibleParty) are always public.",
+      "propertyNames": { "enum": ["formOfWork", "language", "description", "creationCarrier", "aiSystem", "degreeOfAiInvolvement", "references"] },
+      "additionalProperties": { "enum": ["public", "private"] }
+    },
+    "submission": {
+      "type": "object",
+      "description": "Payload submitted by a holder when registering a work. Registry-assigned fields (aibn, regSegment, pubSegment, status, registrationDate, supersededBy) are absent by design; the database rejects unknown keys.",
+      "required": ["title", "workType", "creationDate", "responsibleParty", "contact"],
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string", "minLength": 1, "maxLength": 300 },
+        "workType": { "$ref": "#/$defs/workType" },
+        "creationDate": { "type": "string", "format": "date" },
+        "responsibleParty": { "$ref": "#/$defs/responsibleParty" },
+        "contact": { "$ref": "#/$defs/contact" },
+        "penName": { "type": "string", "minLength": 1 },
+        "formOfWork": { "type": "string" },
+        "language": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/bcp47" } },
+        "description": { "type": "string", "maxLength": 2000 },
+        "creationCarrier": { "type": "string", "pattern": "^[a-z0-9!#$&.+^_-]+/[a-z0-9!#$&.+^_-]+$" },
+        "aiSystem": {
+          "type": "object",
+          "required": ["name"],
+          "additionalProperties": false,
+          "properties": { "name": { "type": "string" }, "version": { "type": "string" } }
+        },
+        "degreeOfAiInvolvement": { "$ref": "#/$defs/degreeOfAiInvolvement" },
+        "references": { "$ref": "#/$defs/references" },
+        "supersedes": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^urn:aibn:[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?:[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$" }
+        },
+        "visibility": { "$ref": "#/$defs/visibility" }
+      }
+    }
+  }
+}
