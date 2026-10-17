@@ -1,0 +1,19 @@
+{
+  "title": "First Light",
+  "workType": "text",
+  "creationDate": "2026-09-30",
+  "responsibleParty": {
+    "type": "legal entity",
+    "name": "Example Collective",
+    "orcid": "0000-0002-1825-0097"
+  },
+  "contact": { "email": "registrations@example-collective.example" },
+  "formOfWork": "novel",
+  "language": ["en"],
+  "description": "A short science-fiction novella about the first crewed station at the Lagrange points.",
+  "creationCarrier": "text/markdown",
+  "aiSystem": { "name": "ExampleModel", "version": "7.2" },
+  "degreeOfAiInvolvement": "ai-assisted",
+  "references": { "isbn": ["978-3-16-148410-0"] },
+  "visibility": { "aiSystem": "public" }
+}
