@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AIBN gives creative works made with AI a permanent, unique name — like an ISBN, but open to everyone. In development by Viloocity.">
+<meta name="color-scheme" content="light dark">
+<title>AIBN — a lasting name for what you make with AI</title>
+<style>
+  :root {
+    --bg: #faf9f7;
+    --card: #ffffff;
+    --ink: #232833;
+    --muted: #5b6270;
+    --accent: #5b4fc4;
+    --accent-soft: #eeedfa;
+    --line: #e6e3dc;
+    --warn-bg: #fdf6ec;
+    --warn-line: #e8c9a0;
+    --warn-ink: #6b4e1e;
+    --ok: #2e7d4f;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #15171d;
+      --card: #1d2027;
+      --ink: #eceef2;
+      --muted: #a3aab6;
+      --accent: #9d94e8;
+      --accent-soft: #262338;
+      --line: #2c303a;
+      --warn-bg: #2a2317;
+      --warn-line: #5c4a26;
+      --warn-ink: #e3c98f;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 1.05rem/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  a { color: var(--accent); }
+  a:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+  .skip { position: absolute; left: -9999px; top: 0; background: var(--accent); color: #fff; padding: .5rem 1rem; z-index: 10; }
+  .skip:focus { left: 0; }
+
+  header {
+    display: flex; flex-wrap: wrap; gap: .75rem 2rem; align-items: baseline;
+    padding: 1.1rem 1.5rem; border-bottom: 1px solid var(--line);
+  }
+  .brand { font-weight: 700; letter-spacing: .02em; font-size: 1.15rem; }
+  .brand small { color: var(--muted); font-weight: 400; }
+  nav { display: flex; flex-wrap: wrap; gap: 1.1rem; font-size: .95rem; }
+  nav a { color: var(--muted); text-decoration: none; }
+  nav a:hover { color: var(--accent); }
+
+  main { max-width: 46rem; margin: 0 auto; padding: 0 1.5rem; }
+  section { padding: 2.6rem 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: none; }
+  h2 { font-size: 1.5rem; margin: 0 0 1rem; }
+  h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.15; margin: 0 0 1rem; }
+
+  .hero { text-align: center; padding-top: 4rem; background: linear-gradient(180deg, var(--accent-soft), var(--bg)); }
+  .hero p.lede { font-size: 1.2rem; color: var(--muted); max-width: 38rem; margin: 0 auto 1.6rem; }
+  .badge {
+    display: inline-flex; align-items: center; gap: .5rem;
+    border: 1px solid var(--line); background: var(--card);
+    border-radius: 999px; padding: .35rem .95rem; font-size: .9rem; color: var(--muted);
+  }
+  .badge::before { content: ""; width: .55rem; height: .55rem; border-radius: 50%; background: #d99a26; }
+
+  .example {
+    font-family: var(--mono); font-size: 1.05rem; text-align: left;
+    background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--accent);
+    border-radius: 8px; padding: 1rem 1.2rem; margin: 2rem auto 0; max-width: 34rem;
+    overflow-x: auto;
+  }
+  .example .label { font-family: inherit; font-size: .78rem; color: var(--muted); display: block; margin-bottom: .35rem; }
+  .anatomy { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 34rem; margin: 1rem auto 0; }
+  .anatomy div { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: .8rem 1rem; }
+  .anatomy code { font-family: var(--mono); font-size: .95rem; }
+  .anatomy p { margin: .3rem 0 0; font-size: .88rem; color: var(--muted); }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.1rem; margin-top: 1.5rem; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 1.3rem; }
+  .card .num {
+    display: inline-flex; width: 2rem; height: 2rem; align-items: center; justify-content: center;
+    background: var(--accent); color: #fff; border-radius: 50%; font-weight: 700; margin-bottom: .6rem;
+  }
+  .card h3 { margin: 0 0 .4rem; font-size: 1.05rem; }
+  .card p { margin: 0; font-size: .95rem; color: var(--muted); }
+
+  .panel {
+    background: var(--warn-bg); border: 1px solid var(--warn-line); color: var(--warn-ink);
+    border-radius: 10px; padding: 1.4rem 1.6rem;
+  }
+  .panel ul { margin: .6rem 0 0; padding-left: 1.2rem; }
+  .panel li { margin: .45rem 0; }
+
+  ul.plain { padding-left: 1.2rem; }
+  ul.plain li { margin: .5rem 0; }
+
+  details { border-top: 1px solid var(--line); }
+  details:last-of-type { border-bottom: 1px solid var(--line); }
+  summary {
+    cursor: pointer; list-style: none; padding: 1rem .2rem;
+    font-weight: 600; display: flex; justify-content: space-between; gap: 1rem; align-items: baseline;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; color: var(--muted); font-weight: 400; font-size: 1.2rem; }
+  details[open] summary::after { content: "–"; }
+  details p { margin: 0 0 1rem; color: var(--muted); }
+
+  .tech { font-size: .95rem; color: var(--muted); }
+  .tech code { font-family: var(--mono); }
+
+  footer {
+    max-width: 46rem; margin: 0 auto; padding: 2rem 1.5rem 3rem;
+    color: var(--muted); font-size: .85rem; border-top: 1px solid var(--line);
+  }
+  footer p { margin: .4rem 0; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header>
+  <div class="brand">AIBN <small>· AI Bibliographic Name</small></div>
+  <nav aria-label="Sections">
+    <a href="#what">What is it?</a>
+    <a href="#why">Why</a>
+    <a href="#how">How it works</a>
+    <a href="#not">What it's not</a>
+    <a href="#privacy">Privacy</a>
+    <a href="#faq">FAQ</a>
+    <a href="#tech">Technical</a>
+  </nav>
+</header>
+
+<main id="main">
+
+  <section class="hero" aria-labelledby="hero-h">
+    <h1 id="hero-h">A lasting name for what you make with AI.</h1>
+    <p class="lede">
+      AIBN gives creative works made with AI a permanent, unique identifier —
+      in the spirit of an ISBN, but open to everyone: any creator, any medium,
+      no publisher required.
+    </p>
+    <span class="badge">In development — the registry is not open yet</span>
+
+    <div class="example">
+      <span class="label">An AIBN looks like this (demo value):</span>
+      urn:aibn:example:first-light-7a
+    </div>
+    <div class="anatomy">
+      <div>
+        <code>example</code>
+        <p>the creator's code — assigned once, when you join. (This one is permanently reserved for demos, so it can never belong to a real creator.)</p>
+      </div>
+      <div>
+        <code>first-light-7a</code>
+        <p>the work's own number — chosen by you, following simple naming rules.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="what" aria-labelledby="what-h">
+    <h2 id="what-h">What is an AIBN?</h2>
+    <p>
+      Think of it as a catalogue number for a creative work — the kind libraries
+      and book trade systems use to say <em>exactly this work</em>, unambiguously,
+      forever. Once assigned, an AIBN belongs to one work and is never reused or
+      reassigned, even if the work is withdrawn.
+    </p>
+    <p>
+      An AIBN names the <strong>work itself</strong>, not any particular edition
+      of it. Your story has one AIBN whether someone encounters it as an ebook,
+      a print-on-demand paperback, or a page on your website. (Traditional ISBNs
+      work differently: each format gets its own number.)
+    </p>
+    <p>
+      Attached to every AIBN is a short public record — the work's title, when
+      it was created, what kind of work it is, and the details its creator chose
+      to declare: a pen name, the AI system used, a short description, references
+      to an ISBN or DOI if it has them.
+    </p>
+  </section>
+
+  <section id="why" aria-labelledby="why-h">
+    <h2 id="why-h">Why does this exist?</h2>
+    <p>
+      If you create with generative AI, the existing identification systems
+      weren't built with you in mind. ISBNs are issued through the publishing
+      industry's supply chain, and their records have no place to say
+      <em>which AI system was involved, or how</em>. As AI-assisted publishing
+      grows, platforms are tightening their rules — but there's still no neutral,
+      open way for a work to carry its provenance with it.
+    </p>
+    <p>
+      AIBN isn't a rival to those systems — a work can happily have an ISBN,
+      a DOI, <em>and</em> an AIBN. It's a supplementary layer: a persistent name
+      plus a provenance record, available to anyone, and not dependent on being
+      traditionally published, on any platform's policies, or on where you live.
+    </p>
+  </section>
+
+  <section id="how" aria-labelledby="how-h">
+    <h2 id="how-h">How it will work</h2>
+    <div class="cards">
+      <div class="card">
+        <span class="num" aria-hidden="true">1</span>
+        <h3>Get your creator code</h3>
+        <p>Apply once. It's free at launch and open to any person or organisation,
+        anywhere. You never need a publisher's permission or membership in anything.</p>
+      </div>
+      <div class="card">
+        <span class="num" aria-hidden="true">2</span>
+        <h3>Register a work</h3>
+        <p>Fill in a short form: title, creation date, what kind of work it is.
+        Optionally add a pen name, the AI system and version you used, a label
+        like <em>ai-assisted</em>, languages, a short description, and references
+        such as an ISBN or DOI.</p>
+      </div>
+      <div class="card">
+        <span class="num" aria-hidden="true">3</span>
+        <h3>Share your AIBN</h3>
+        <p>Print it in your book, put it on your website or store page, include
+        it in submissions. Anyone will be able to look it up and see the public
+        record — exactly what you chose to declare.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="not" aria-labelledby="not-h">
+    <h2 id="not-h">What an AIBN is <em>not</em></h2>
+    <div class="panel">
+      <p style="margin:0"><strong>Being clear about this is part of the design.</strong></p>
+      <ul>
+        <li><strong>Not copyright.</strong> Registering doesn't create, prove, or
+        transfer any rights. Copyright depends on the law where you are — for
+        legal questions, talk to a professional.</li>
+        <li><strong>Not proof of authorship.</strong> Records are self-declared.
+        We check that a submission is complete and well-formed — not whether its
+        claims are true.</li>
+        <li><strong>Not a publisher, store, or distributor.</strong> We don't host,
+        sell, or promote works.</li>
+        <li><strong>Not a replacement for ISBN.</strong> The two can coexist on
+        the same work, describing different things.</li>
+        <li><strong>Not a seal of quality or endorsement</strong> of any work or
+        creator.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="privacy" aria-labelledby="privacy-h">
+    <h2 id="privacy-h">Your privacy</h2>
+    <ul class="plain">
+      <li><strong>Pen names are welcome.</strong> The public record never requires
+      a real name — a pen name or organisation name can be the public face.</li>
+      <li><strong>One private contact channel</strong> (an email address) is
+      required so we can reach you, but it is never published.</li>
+      <li><strong>You choose what's public.</strong> Optional details — like the
+      AI system you used — can be shown or withheld, field by field.</li>
+      <li><strong>Removal works.</strong> On a valid request, personal data comes
+      out of the public record. The identifier itself is then permanently retired
+      rather than given to anyone else — that's what makes the ones still in use
+      trustworthy.</li>
+      <li><strong>The whole public database is published openly</strong> — daily
+      snapshots anyone can verify or mirror. No lock-in.</li>
+    </ul>
+  </section>
+
+  <section id="faq" aria-labelledby="faq-h">
+    <h2 id="faq-h">Questions people ask</h2>
+
+    <details>
+      <summary>When can I get an AIBN?</summary>
+      <p>Not yet — the registry is in development, and the identifier scheme is
+      being registered through the international standards process. Watch the
+      public project repository or write to us; the moment there's a launch date,
+      it will be announced there.</p>
+    </details>
+
+    <details>
+      <summary>Will it cost anything?</summary>
+      <p>No fees at launch. If fees are ever introduced, they'll be published
+      well in advance — and the core commitment stays: one identifier per work,
+      never reused, open to anyone.</p>
+    </details>
+
+    <details>
+      <summary>Is it only for AI works?</summary>
+      <p>Yes — AIBN is for works created in whole or in part with generative AI,
+      which is why its records can describe AI involvement. Works made entirely
+      by hand are well served by existing systems.</p>
+    </details>
+
+    <details>
+      <summary>Does it only cover writing?</summary>
+      <p>No. Any medium: text, images, audio, video, software, datasets, or
+      combinations. If it's a creative work made with AI, it can have an AIBN.</p>
+    </details>
+
+    <details>
+      <summary>Does my work need to be finished or published?</summary>
+      <p>No. An AIBN names a work at the moment of its creation; drafts and
+      unpublished works can be registered. Substantially new versions get their
+      own AIBN, optionally cross-linked to the earlier one.</p>
+    </details>
+
+    <details>
+      <summary>Can someone register a work they didn't make?</summary>
+      <p>Possibly — because we don't verify authorship, only completeness of the
+      record. We don't act as judge in such disputes. The record is transparent
+      about being self-declared, and it can cross-reference other identifiers
+      (ISNI, ORCID, ISBN) that speak to identity and publication.</p>
+    </details>
+
+    <details>
+      <summary>What happens if the registry ever shuts down?</summary>
+      <p>The database is continuously escrowed with an independent agent, and the
+      plan is committed in writing: the public data would be released in static
+      form so existing identifiers remain verifiable. The identifiers themselves
+      remain valid names even with no live lookup service.</p>
+    </details>
+
+    <details>
+      <summary>Why "Bibliographic"?</summary>
+      <p>It's library language for "about works and how to describe them" — and
+      in that world it covers every medium, not just books. The full name is
+      <em>AI Bibliographic Name</em>.</p>
+    </details>
+  </section>
+
+  <section id="tech" class="tech" aria-labelledby="tech-h">
+    <h2 id="tech-h">For the technically curious</h2>
+    <p>
+      AIBN is a Uniform Resource Names (URN) namespace — identifiers of the form
+      <code>urn:aibn:&lt;creator-code&gt;:&lt;work-number&gt;</code> — being
+      registered through the IETF/IANA process (RFC 8141). The complete
+      specification, the JSON metadata schema, and examples are developed in the
+      open:
+    </p>
+    <p>
+      <!-- TODO: replace with the actual repository URL once public -->
+      <a href="https://github.com/viloocity/aibn">github.com/viloocity/aibn</a>
+       · <a href="mailto:aibn-admin@viloocity.press">aibn-admin@viloocity.press</a>
+    </p>
+    <p>
+      Lookups will be served by a public HTTPS API (JSON-LD by default, MARCXML
+      and plain text available), with daily full-database exports so anyone can
+      run a mirror.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <p><strong>AIBN — AI Bibliographic Name</strong> is operated by Viloocity,
+  Den Haag, Netherlands, KvK 99461056 · <a href="mailto:aibn-admin@viloocity.press">aibn-admin@viloocity.press</a></p>
+  <p>An AIBN is a technical identifier only. Registration creates no copyright
+  or other rights and makes no representation of authorship or ownership.</p>
+  <p>Page text: CC BY 4.0. "AI Bibliographic Name" and "AIBN" are project
+  identifiers of the AIBN registry.</p>
+</footer>
+
+</body>
+</html>
