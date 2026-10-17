@@ -1,0 +1,21 @@
+{
+  "aibn": "urn:aibn:example:first-light-7a",
+  "regSegment": "example",
+  "pubSegment": "first-light-7a",
+  "status": "active",
+  "registrationDate": "2026-10-17T14:03:00Z",
+  "title": "First Light",
+  "workType": "text",
+  "creationDate": "2026-09-30",
+  "responsibleParty": {
+    "type": "legal entity",
+    "name": "Example Collective",
+    "orcid": "0000-0002-1825-0097"
+  },
+  "formOfWork": "novel",
+  "language": ["en"],
+  "creationCarrier": "text/markdown",
+  "aiSystem": { "name": "ExampleModel", "version": "7.2" },
+  "degreeOfAiInvolvement": "ai-assisted",
+  "references": { "isbn": ["978-3-16-148410-0"] }
+}
