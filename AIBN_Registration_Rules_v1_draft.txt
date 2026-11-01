@@ -1,0 +1,643 @@
+AIBN Registration Rules
+=======================
+
+Operational rules for the assignment and administration of AIBNs in
+the urn:aibn namespace.
+
+Registry Operator: [legal name of the operator — to be completed], a
+sole proprietorship (eenmanszaak) registered in the Netherlands
+(KvK 99461056)
+Version: 1 (draft)
+Effective date: [to be completed]
+Stable URL of this document: [to be completed before the urn:aibn
+namespace registration is submitted]
+Contact: [role email address — to be completed]
+
+This document is the "AIBN Registration Rules" cited as [AIBN-RULES]
+in the urn:aibn namespace registration. Terms defined there — work,
+holder, responsible party, reg-segment, pub-segment, AIBN, Registry
+Operator — are used here with the same meaning.
+
+
+1. About this document
+----------------------
+
+This document states the procedural rules under which the Registry
+Operator assigns reg-segments, under which holders record AIBNs, and
+the operational commitments of the Registry Operator. It does not
+restate the definition of the namespace; that is the role of the
+namespace registration, and of the Metadata Schema for field
+definitions.
+
+The namespace document set consists of three parts:
+
+  - the urn:aibn namespace registration (the foundational
+    specification: purpose, syntax, scope, identifier persistence,
+    resolution);
+  - these Registration Rules (assignment and administration);
+  - the AIBN Metadata Schema [AIBN-SCHEMA] (metadata fields and
+    controlled vocabularies).
+
+Where these Rules and the namespace registration could be read to
+conflict, the namespace registration prevails on matters of namespace
+definition (scope, syntax, persistence, resolution); these Rules
+prevail on matters of procedure.
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+"SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+"OPTIONAL" in this document are to be interpreted as described in
+BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+capitals, as shown here.
+
+The stable URL of this document (header) must be in place before the
+namespace registration is submitted.
+
+
+2. Definitions used in these Rules
+----------------------------------
+
+  - Applicant: a natural person or legal entity applying for a
+    reg-segment.
+  - Contact channel: a private, verifiable means by which the
+    Registry Operator can reach a holder (section 4.3).
+  - Recording: the entry of a pub-segment and its metadata into the
+    AIBN database.
+  - Lookup API: the public HTTPS service that accepts an AIBN and
+    returns the public metadata record (section 11).
+  - Bulk export: the published snapshot of the public database
+    (section 11.3).
+  - Public record: the metadata of an AIBN as returned by the lookup
+    API and included in the bulk export — every recorded field except
+    the contact channel and fields marked non-public (section 6.5).
+  - Record change log: the append-only list of metadata corrections
+    kept for each AIBN record (section 5.5).
+  - Database change log: the append-only list of database events
+    (recordings, status transitions, corrections) published as part
+    of the bulk export (section 11.3).
+
+All other terms are used as defined in the namespace registration.
+
+
+3. The registry at a glance
+---------------------------
+
+  - The Registry Operator is the sole authority for reg-segments: it
+    assigns them on application, guarantees their global uniqueness,
+    and never reassigns a reg-segment — including after a holder
+    becomes inactive or dissolves. The assignment function is not
+    delegated to third parties. The values "example", "test",
+    "invalid", and "reserved" are permanently reserved and are never
+    assigned.
+  - Within its reg-segment, a holder assigns pub-segments and
+    records them in the AIBN database (section 5).
+  - The Registry Operator operates the AIBN database, the lookup API,
+    and the bulk export (section 11), maintains the escrow and
+    succession arrangements (section 14), and maintains the
+    Registration Rules and the Metadata Schema (section 16).
+  - The authoritative database (lookup API and bulk export) is the
+    sole validity oracle for AIBNs.
+
+
+4. Obtaining a reg-segment
+--------------------------
+
+4.1 Who may apply. Any natural person or legal entity may apply. A
+natural-person applicant must be of full legal capacity to accept
+these Rules — as a rule this means at least 18 years of age; where
+the law governing this acceptance grants full capacity earlier (for
+example, on emancipation), that capacity suffices. For a legal-entity
+applicant, the person accepting these Rules declares that they are
+authorized to bind it. The capacity requirement applies to
+applicants, not to the persons a record names: a work by a minor
+author is identified through an adult registrant. Assignment is
+open: it is not conditioned on copyright subsistence, publication
+status, nationality, or membership in any organization, and an
+applicant need not be the author or rights holder of the works it
+intends to identify (see the namespace registration, Openness and
+criteria, and Non-effect on rights).
+
+4.2 How to apply. An application is submitted by email to
+[application email address — to be completed] using the application
+form published at [application form URL — to be completed]. The
+application states:
+
+  - the applicant's name and legal form (natural person or legal
+    entity, e.g., a company with its registration number);
+  - a postal address (a business or postal address is accepted; it is
+    stored as private data and is not published);
+  - the contact channel (4.3); and
+  - a statement that the applicant accepts these Rules, with the
+    declaration of capacity required by 4.1 (full legal capacity of a
+    natural-person applicant; authority to bind a legal-entity
+    applicant).
+
+4.3 Contact channel. The contact channel is an email address
+controlled by the applicant. It is verified at application time by a
+confirmation message, remains private, and is never published or
+included in the bulk export. The holder MUST keep the contact channel
+functional and MUST report a change of address within 14 days. A
+holder MAY designate a secondary contact channel for continuity.
+
+4.4 Verification and assignment. The Registry Operator verifies the
+completeness of the application and the functionality of the contact
+channel, then assigns the reg-segment. Complete applications are
+acknowledged within 7 business days and decided within 30 calendar
+days. The applicant does not choose the reg-segment string: segments
+are opaque codes with no embedded meaning, and requests for
+particular values are not accepted. Assignment of a reg-segment
+conveys no right in, or endorsement of, the holder or its works.
+
+4.5 Refusal. The Registry Operator may refuse an application only
+where: (a) required information is missing, or verification of the
+contact channel fails; (b) the application contains knowingly false
+information; (c) the applicant is a person whose reg-segment was
+terminated under section 9 (Termination of a reg-segment) within the
+preceding 24 months; or (d) assignment is prohibited by applicable law
+(for example, sanctions rules). A refusal is reasoned and communicated
+through the application channel and may be appealed (section 12).
+
+4.6 Changes affecting a holder. The holder MUST report, within 30
+days, changes to its legal name, legal form, or address, and MUST
+report dissolution or cessation of business. A reg-segment survives a
+change of legal form if the holder continues to exist in a successor
+form (for example, a sole proprietorship converted into a private
+company) and the change is reported; the segment is otherwise not
+transferable. A holder may surrender its reg-segment at any time by
+notice; its records persist (section 8).
+
+4.7 Multiple reg-segments. An applicant may hold more than one
+reg-segment; each application is assessed under 4.4 and 4.5 on its
+own. Common reasons are separately administered catalogs (imprints,
+divisions, product lines), recording workflows run by different
+teams, and separation of an acquired or migrated catalog. Each
+reg-segment of the same holder is governed independently:
+obligations, notices, removal, termination, and appeal run per
+segment, and the refusal window of 4.5(c) applies per person.
+Holding multiple reg-segments conveys no priority, quota, or
+endorsement; larger volumes are accommodated under 5.3, not by
+multiplying segments.
+
+
+5. Recording AIBNs
+------------------
+
+5.1 What may be recorded. A pub-segment is recorded for a single work
+as defined in the namespace registration (Purpose, "The concept of a
+work"). Whether a creation is a work, and at what granularity, is
+declared by the holder under the good-faith representation of
+section 9; the Registry Operator does not verify eligibility,
+authorship, or ownership. Multiple AIBNs may be assigned to the same
+work by different parties; the Registry Operator does not adjudicate
+such disputes (see section 10).
+
+5.2 Syntax, uniqueness, and timing. Each pub-segment MUST satisfy the
+syntax of the namespace registration (Syntax, ABNF grammar) and MUST
+be unique within its reg-segment; the AIBN database rejects
+duplicates within a reg-segment. The holder MUST record each
+pub-segment in the AIBN database at or before its first public use.
+The registration date is the date of recording; the Registry Operator
+never backdates a record to an earlier public use.
+
+5.3 Rate and batch limits. At launch, a holder may record up to 100
+AIBNs per rolling 24-hour period per reg-segment. Larger volumes
+(for example, migration of an existing catalog) are accommodated on
+request with a brief statement of purpose; a granted elevated limit
+is recorded in the database change log and applies until withdrawn.
+Breach of the applicable limit is a removal ground under section 9.
+The lookup API's own rate limits are documented at the API endpoint
+(section 11) and are separate from these recording limits.
+
+5.4 Malformed registrations. Entries that fail syntactic validation
+are rejected at recording time and are never recorded. If a record is
+later found to be malformed (for example, through a validation
+defect), the Registry Operator notifies the holder through the
+contact channel and allows 14 days to correct the entry; an
+uncorrected record is set to retracted and the event is entered in
+the record change log. Malformation is not an abuse ground; section 9
+governs abuse.
+
+5.5 Corrections. A holder corrects its record's metadata at any time;
+every correction is entered in the record change log with its date
+and nature. The identifier itself never changes, and no correction
+alters the registration date.
+
+
+6. Metadata obligations
+-----------------------
+
+6.1 Minimum metadata. Each record MUST contain the minimum metadata
+set out in the AIBN Metadata Schema [AIBN-SCHEMA], including a work
+title, work type, creation date, and a responsible party; the
+responsible party is mandatory and is the accountability and contact
+point for the record, as defined in the namespace registration.
+
+6.2 Source of metadata. All metadata is as supplied by the holder.
+The registry itself records the registration date and the lifecycle
+status of the AIBN; these fields are assigned and maintained by the
+Registry Operator and cannot be altered by the holder.
+
+6.3 Controlled vocabularies. Work-type and degree-of-AI-involvement
+values MUST come from the controlled vocabularies published in the
+Metadata Schema [AIBN-SCHEMA].
+
+6.4 Validation. The Registry Operator validates format and
+completeness only. It does not verify authorship, ownership, or
+factual accuracy, and states this in all outputs.
+
+6.5 Field-level visibility. Optional fields (for example, AI system
+name and version, description) MAY be marked non-public at recording
+time. Non-public fields are stored but are not returned by the lookup
+API and are not included in the bulk export. The contact channel is
+always non-public. The public record is as defined in section 2.
+
+
+7. Holder obligations
+---------------------
+
+A holder MUST:
+
+  - keep the contact channel functional and current (4.3; a dead
+    channel is a removal ground under section 9, ground (d));
+  - represent the accuracy of its metadata in good faith (6.2;
+    section 9);
+  - record pub-segments only for works, at or before first public
+    use (5.1, 5.2);
+  - report identity and status changes (4.6);
+  - respond to notices from the Registry Operator within the periods
+    stated in these Rules.
+
+Failure to meet these obligations is handled under section 5.4
+(malformation) or section 9 (abuse), as applicable.
+
+
+8. Lifecycle of records
+-----------------------
+
+  - active: the default status of a recorded AIBN.
+  - retracted: set (a) on request of the holder, at any time, through
+    the contact channel, or (b) by the Registry Operator under
+    section 9 (abuse) or 5.4 (uncorrected malformation). Retraction
+    retains at minimum the identifier, its status, and the
+    registration date (see section 13 for privacy limits on what else
+    is retained).
+  - superseded: set by the holder when a substantially new version of
+    the work is registered under a new AIBN; the two records are
+    cross-linked through their metadata. Whether a version is
+    substantially new is the holder's declaration, guided by the
+    namespace registration's Granularity rules.
+
+No status transition ever frees an identifier or a reg-segment for
+reassignment. All status transitions are entered in the database
+change log and (for records) the record change log.
+
+A reg-segment does not expire for non-use: a holder's ongoing
+obligations are those of section 7. A reg-segment ends only by the
+holder's surrender (4.6) or by termination under section 9
+(Termination of a reg-segment); termination follows notice and the
+response period of section 9 and carries a right of appeal
+(section 12).
+
+
+9. Good faith and removal for abuse
+-----------------------------------
+
+Good faith. By applying for a reg-segment and by recording each AIBN
+in the AIBN database, the holder represents that (a) the recorded
+metadata is, to the best of the holder's knowledge, accurate and not
+misleading; (b) each registration is made to identify a work as
+defined in the namespace registration, and not to interfere with
+another party's registrations or to mislead anyone about a work's
+origin, identity, or authorship; and (c) the contact channel of
+record is kept functional.
+
+Removal grounds. The Registry Operator may set the lifecycle status
+of a record to "retracted" (see Identifier persistence in the
+namespace registration) where, on documented evidence, it determines
+that: (a) metadata was falsified (e.g., a fabricated responsible
+party or contact channel, or a knowingly false AI-provenance
+declaration); (b) a pattern of registrations has the evident purpose
+of interfering with or free-riding on another party's registrations
+(e.g., mass duplicate registration of works already registered by
+others, accompanied by misleading metadata); (c) registrations
+breach the rate or batch limits of these Rules; or (d) the holder's
+contact channel has ceased to function and is not restored within
+30 days of notice.
+
+Process and limits. Before acting, the Registry Operator gives
+notice through the holder's contact channel and allows 14 days to
+respond; the decision and its grounds are entered in the record's
+change log. An isolated duplicate or erroneous record is not an
+abuse ground: the Operator acts on patterns and demonstrable intent,
+not on the mere existence of another record for the same work.
+These grounds concern conduct toward the registry and its users;
+the Operator does not determine authorship, ownership, or
+entitlement to register any work, and removal on these grounds is
+not a finding that the holder lacked any right to register it.
+Disputes between parties remain with those parties under applicable
+law. No status transition ever frees an identifier for reassignment,
+and nothing here reintroduces ex-ante verification: metadata is
+checked for format and completeness only, and these grounds operate
+ex post, on evidence.
+
+Termination of a reg-segment. Where the abuse grounds above apply to
+a holder's registrations generally (rather than to isolated records),
+the Registry Operator may terminate the reg-segment after notice and
+the 14-day response period; all records under the segment are set to
+retracted and persist under section 8. Termination is entered in the
+database change log, is stated as a ground for refusal under 4.5(c)
+for 24 months, and may be appealed (section 12).
+
+
+10. Related records in the lookup API
+-------------------------------------
+
+Where the response of the public lookup API for one AIBN indicates
+a possible match with another record for the same work — because
+both records cross-reference the same external identifier (e.g.,
+ISBN, DOI), or share title and responsible party, or share title
+and a person identifier (e.g., ISNI, ORCID) — the response lists
+the other record's AIBN, registration date, and responsible party,
+labeled as an unverified association ("may describe the same
+work"). The registry does not rank, merge, or privilege any
+record, and the association affects neither the status nor the
+validity of either record. Either holder may correct its own
+metadata to break a false association; neither may demand removal
+of the other's record on the basis of an association alone.
+Consumers decide which record to rely on by the identifier cited
+by the work itself, the responsible-party field, and
+cross-references.
+
+
+11. The lookup API, bulk export, and mirrors
+--------------------------------------------
+
+11.1 Endpoint. The Registry Operator operates one or more public
+HTTPS endpoints that accept an AIBN — as a complete URN or as its
+NSS — and return the public metadata record. The endpoint URL is:
+[lookup API URL — to be completed].
+Validation and resolution differ in intent, not implementation: this
+is the same service cited under Resolution in the namespace
+registration.
+
+11.2 Response behavior. The default representation is JSON-LD;
+MARCXML and plain text may be requested through HTTP content
+negotiation or an endpoint-local format=marcxml or format=text URL
+query parameter (these parameters are not URN q- or r-components).
+The JSON-LD schema is published and versioned alongside the Metadata
+Schema. Status codes at launch:
+
+  - 200 (OK): record found; the body includes the lifecycle status
+    (active or superseded, with the superseding AIBN where set).
+  - 410 (Gone): record retracted; the body is the tombstone record
+    (section 13.3).
+  - 404 (Not Found): no such identifier (never recorded).
+  - 400 (Bad Request): the lookup key is not a syntactically valid
+    AIBN NSS or URN.
+
+Error responses (400, 404) return a machine-readable problem-details
+document. The API's request-rate limits are documented at the endpoint
+itself.
+
+11.3 Bulk export. A complete export of the public database is
+published as daily snapshots plus an append-only database change
+log, at [bulk export URL — to be completed]. The export includes a
+checksum manifest for verification.
+It contains the public record of every AIBN and excludes contact
+channels and non-public fields.
+
+11.4 Mirrors. Third parties may mirror the bulk export and operate
+resolvers. A mirror is listed as a recognized mirror when it:
+(a) derives its data from the official export and verifies the
+checksum manifest; (b) refreshes its data at least every 7 days;
+(c) identifies itself as a mirror in its responses; and (d) refers
+questions of validity to the Registry Operator's endpoint. The
+Registry Operator's endpoint remains authoritative; the current list
+of recognized mirrors is published at [mirrors list URL — to be
+completed].
+
+
+12. Appeals
+-----------
+
+A holder or applicant affected by a decision under these Rules — a
+refusal under 4.5, a removal or segment termination under section 9,
+an uncorrected-malformation retraction under 5.4, or a limit decision
+under 5.3 — may appeal by notice through the contact channel (or the
+application channel) within 30 days of the decision. The Registry
+Operator reconsiders and responds within 14 days; where a record is
+affected, the appeal and its outcome are entered in the record change
+log. Because no identifier is ever reassigned, an upheld appeal
+restores the record's previous status without loss of the identifier.
+If the appeal is rejected, the decision stands; nothing in these
+Rules limits remedies available under applicable law.
+
+
+13. Privacy, data protection, and retention
+-------------------------------------------
+
+13.1 Controller and principles. The Registry Operator acts as data
+controller for personal data it processes and complies with the
+General Data Protection Regulation (EU) 2016/679 (GDPR). Data is
+collected minimally, used for operating the registry, preventing
+abuse, and meeting legal obligations, and is not sold or used for
+advertising.
+
+13.2 What is public and what is private. The public record never
+requires a natural person's real name: a pen name or organization
+name may be displayed instead. The contact channel, the applicant's
+postal address, and fields marked non-public (6.5) are private and
+are never included in the lookup API, the bulk export, or the escrow
+publication (section 14).
+
+13.3 Deletion requests and tombstones. On a valid deletion request,
+personal data is removed from public display; where no legal
+retention obligation applies, it is also erased from the operator's
+records. The identifier persists with status retracted and a
+non-identifying tombstone record: the minimum retained record
+contains the identifier, status, and registration date. Titles and
+other potentially identifying metadata are retained only where
+lawful. This trade-off between privacy and identifier persistence is
+deliberate and disclosed in the namespace registration.
+
+13.4 Retention periods. Identifier records are retained for the life
+of the identifier (persistent by design). Application and identity
+records, and archived contact channels, are retained for 7 years
+after the reg-segment ends, for accountability and defense against
+abuse. Server logs are retained for 12 months. Retention beyond
+these periods occurs only where required by law.
+
+13.5 Data subject requests. Requests for access, rectification,
+erasure, or portability are sent to [privacy contact email — to be
+completed] and are answered within one month.
+
+13.6 Privacy policy. The operational details of processing — lawful
+bases, processors and sub-processors, international transfers,
+security measures, and the practical handling of data subject
+requests — are published in the privacy policy at [privacy policy
+URL — to be completed]. The policy may be updated; where the policy
+and this section differ, the provision more protective of the data
+subject prevails, and the commitments of 13.2 to 13.5 change only
+through section 16. No personal data is collected under these Rules
+before the privacy policy is published at that address.
+
+
+14. Continuity: escrow and succession
+-------------------------------------
+
+14.1 Escrow arrangement. The Registry Operator maintains a written
+data-escrow agreement with an independent escrow agent:
+[escrow agent — to be completed]. The deposit is made at least
+every 30 days and consists of two layers:
+the public layer (the complete public database, including the
+database change log, with its checksum manifest) and a sealed layer
+(contact channels and other private data), which is never published
+and passes only to a successor operator under 14.2.
+
+14.2 Succession plan. The Registry Operator maintains a written
+succession plan, reviewed annually, that names the process by which
+a successor operator is selected (for example, transfer to a legal
+entity or to an established registry organization) and the steps for
+handing over operation. The escrow agreement empowers the escrow
+agent to act without the Operator's further involvement.
+
+14.3 If operation ceases. If operation ceases with a successor, the
+successor continues under the succession plan and the IANA
+registration record is updated per the procedures of [RFC8141]. If
+operation ceases without a successor, the escrow agent publishes the
+escrow public layer in static form so that identifiers remain
+verifiable, and the IANA registration record is updated (for
+example, to mark resolution inactive). Identifiers remain
+syntactically valid URNs regardless of resolution status.
+
+
+15. Fees
+--------
+
+No fee is charged at launch for application, reg-segment assignment,
+recording, or use of the lookup API. Any future fee will be
+published in a new version of this document at least 90 days before
+taking effect, will never apply retroactively to identifiers already
+recorded, and will never condition the persistence of recorded
+identifiers on payment.
+
+
+16. Changes to these Rules
+--------------------------
+
+The Registry Operator maintains these Rules. Every change is
+recorded in the change log below with a version number and effective
+date. Material changes — to the assignment mechanism, uniqueness
+policy, or resolution requirements — are published for public
+comment for at least 30 days before taking effect; other changes are
+published and notified to holders through the contact channel at
+least 30 days before taking effect. Changes never apply retroactively
+to recorded identifiers. If a change affects a statement made in the
+namespace registration, the registration record is revised per the
+namespace-change procedures of [RFC8141].
+
+
+17. Contact
+-----------
+
+Registry Operator: [legal name of the operator — to be completed],
+eenmanszaak, the Netherlands (KvK 99461056).
+Postal address: [postal or business address — to be completed].
+Email: [role email address — to be completed].
+
+General and data-protection contact: [privacy contact email — to be
+completed].
+
+
+References
+----------
+
+[RFC2119] Bradner, S., "Key words for use in RFCs to Indicate
+           Requirement Levels", BCP 14, RFC 2119, March 1997.
+[RFC8174] Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC 2119
+           Key Words", BCP 14, RFC 8174, May 2017.
+[RFC8141] Saint-Andre, P., Klensin, J., "Uniform Resource Names
+           (URNs)", RFC 8141, April 2017.
+[AIBN-SCHEMA] AIBN Metadata Schema
+           (https://aibn.viloocity.press/schema/aibn-record-1.0.0.json).
+
+
+Change log
+----------
+
+Version 1 (draft): initial version, prepared together with version 2
+of the namespace registration. Sections 9 and 10 implement the
+good-faith and related-records commitments referenced there. Section
+4.7 (multiple reg-segments), the closing paragraph of section 8
+(no expiry for non-use), the capacity requirement of 4.1, and the
+privacy policy pointer of 13.6 were added during review; 4.5(c) now
+cites section 9's termination block by name, and 5.2 adds the
+no-backdating rule.
+
+
+[EDITORIAL NOTE 1: launch values to confirm before publication: the
+100-per-24-hour recording limit (5.3), the 7/30-day application
+timelines (4.4), the 24-month refusal window (4.5), the 7-day mirror
+freshness (11.4), the retention periods (13.4), and the 90-day fee
+notice (15). Each is a policy default, not a technical necessity.]
+
+[EDITORIAL NOTE 2: status-code design (11.2): 410-with-tombstone for
+retracted was chosen so that withdrawn identifiers remain
+distinguishable from never-assigned ones, which matters for citation
+checking. Confirm at implementation; the alternative (200 with
+status field for all existing records) is simpler for clients.]
+
+[EDITORIAL NOTE 3: escrow design (14.1): the two-layer deposit keeps
+the privacy promise (contact channels are never published) while a
+successor still receives them under seal. Make sure the actual
+escrow agreement matches: publication duty covers the public layer
+only, and the agent can act without the Operator (review item 17).]
+
+[EDITORIAL NOTE 4: appeals (12): the current design is
+reconsider-and-reinstate by the same operator — honest for a
+one-operator registry, and reversible because identifiers are never
+reassigned. If you want an independent layer, name an independent
+appeals advisor in this section before launch.]
+
+[EDITORIAL NOTE 5: precedence sentence in section 1 is deliberately
+narrow (namespace definition vs. procedure) so that neither document
+can quietly override the other. If the designated expert asks how
+conflicts are detected, the answer is the change-log discipline of
+section 16 plus RFC 8141 revision procedures.]
+
+[EDITORIAL NOTE 6: the bracketed items in the header, 4.2, 11.1,
+11.3, 11.4, 13.5, and 17 are the placeholders to fill before
+submission (the document's own stable URL, legal name, email
+addresses, application form). The remaining placeholders — the
+API, bulk export, and mirrors URLs, the escrow agent, and the
+privacy policy URL (13.6) — carry no fixed completion date; the
+launch-gating wording was removed at your instruction, matching
+the Continuity change in the namespace registration. One
+sequencing rule survives, for legal rather than timing reasons:
+under 13.6, no personal data is collected before the privacy
+policy is published. See also review item 23: search for "[" before
+submitting.]
+
+[EDITORIAL NOTE 7: 4.7 sets no cap on reg-segments per holder. A
+cap would force the Operator to adjudicate entity groups — is a
+person plus their one-person company one holder or two? do
+subsidiaries count inside a cap? — which is the identity
+verification the registry refuses to perform. Volume is governed
+where it matters: the recording limits of 5.3, with elevated
+limits as the sanctioned route for large volumes. 4.7 also
+resolves a latent ambiguity: section 9 speaks of "the reg-segment"
+(singular), so it was unclear whether action on one segment
+reached the holder's others; it does not — governance runs per
+segment.]
+
+[EDITORIAL NOTE 8: two judgment calls this round. Capacity (4.1) is
+tested by declaration, not by age or identity verification —
+checking documents would be the KYC the registry refuses to perform
+(4.4), and a false declaration is reachable under 4.5(b).
+Citizenship was deliberately rejected as the test: majority ages
+differ by jurisdiction, capacity follows the law governing the
+acceptance, and conditioning on nationality would contradict the
+openness commitment. The registration's Openness and criteria
+sentence now carries the same "full legal capacity" wording. The
+final sentence of 13.6 is sequencing that GDPR transparency
+requires (the notice must exist when collection starts), not
+launch-gating; drop it if you prefer the Rules silent on ordering.]
