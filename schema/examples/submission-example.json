@@ -1,19 +1,35 @@
 {
-  "title": "First Light",
+  "pubSegment": "first-light-7b",
+  "title": "First Light over Noorderhaven",
   "workType": "text",
-  "creationDate": "2026-09-30",
+  "creationDate": "2026-10-11",
   "responsibleParty": {
-    "type": "legal entity",
-    "name": "Example Collective",
+    "type": "natural person",
+    "name": "Josiah Carberry",
     "orcid": "0000-0002-1825-0097"
   },
-  "contact": { "email": "registrations@example-collective.example" },
+  "contact": {
+    "email": "holder@example.org"
+  },
+  "penName": {
+    "name": "Kunstaap",
+    "isni": "0000000144701851"
+  },
   "formOfWork": "novel",
-  "language": ["en"],
-  "description": "A short science-fiction novella about the first crewed station at the Lagrange points.",
+  "language": ["en", "nl-NL"],
+  "description": "Second, expanded edition. A lighthouse keeper on a North Sea island begins receiving radio transmissions that appear to be her own future log entries; this edition adds a new afterword and a revised final chapter.",
   "creationCarrier": "text/markdown",
-  "aiSystem": { "name": "ExampleModel", "version": "7.2" },
+  "aiSystem": {
+    "name": "GLM",
+    "version": "4.7"
+  },
   "degreeOfAiInvolvement": "ai-assisted",
-  "references": { "isbn": ["978-3-16-148410-0"] },
-  "visibility": { "aiSystem": "public" }
+  "references": {
+    "isbn": ["978-1-11-111111-3"],
+    "doi": ["10.1000/182"]
+  },
+  "supersedes": ["urn:aibn:example:first-light-7a"],
+  "visibility": {
+    "aiSystem": "public"
+  }
 }

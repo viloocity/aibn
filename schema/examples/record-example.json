@@ -1,21 +1,46 @@
 {
-  "aibn": "urn:aibn:example:first-light-7a",
+  "@context": "https://aibn.viloocity.press/schema/aibn-context-1.0.0.jsonld",
+  "@type": "CreativeWork",
+  "aibn": "urn:aibn:example:first-light-7b",
   "regSegment": "example",
-  "pubSegment": "first-light-7a",
+  "pubSegment": "first-light-7b",
   "status": "active",
-  "registrationDate": "2026-10-17T14:03:00Z",
-  "title": "First Light",
+  "registrationDate": "2026-10-26T09:15:00Z",
+  "title": "First Light over Noorderhaven",
   "workType": "text",
-  "creationDate": "2026-09-30",
+  "formOfWork": "novel",
+  "creationDate": "2026-10-11",
+  "language": ["en", "nl-NL"],
+  "description": "Second, expanded edition. A lighthouse keeper on a North Sea island begins receiving radio transmissions that appear to be her own future log entries; this edition adds a new afterword and a revised final chapter.",
+  "creationCarrier": "text/markdown",
+  "aiSystem": {
+    "name": "GLM",
+    "version": "4.7"
+  },
+  "degreeOfAiInvolvement": "ai-assisted",
   "responsibleParty": {
-    "type": "legal entity",
-    "name": "Example Collective",
+    "type": "natural person",
+    "name": "Josiah Carberry",
     "orcid": "0000-0002-1825-0097"
   },
-  "formOfWork": "novel",
-  "language": ["en"],
-  "creationCarrier": "text/markdown",
-  "aiSystem": { "name": "ExampleModel", "version": "7.2" },
-  "degreeOfAiInvolvement": "ai-assisted",
-  "references": { "isbn": ["978-3-16-148410-0"] }
+  "penName": {
+    "name": "Kunstaap",
+    "isni": "0000000144701851"
+  },
+  "references": {
+    "isbn": ["978-1-11-111111-3"],
+    "doi": ["10.1000/182"]
+  },
+  "supersedes": ["urn:aibn:example:first-light-7a"],
+  "related": [
+    {
+      "aibn": "urn:aibn:test:eerste-licht-01",
+      "registrationDate": "2026-10-27T14:30:00Z",
+      "responsibleParty": {
+        "type": "legal entity",
+        "name": "Noorderhaven Press"
+      },
+      "associationLabel": "may describe the same work"
+    }
+  ]
 }
