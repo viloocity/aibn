@@ -2,12 +2,25 @@ URN NAMESPACE REGISTRATION TEMPLATE: AIBN
 =========================================
 
 [EDITORIAL NOTE 0: This is draft v2, applying all changes requested in the
-review of v1. Item numbers in the notes below refer to the companion
-workbook AIBN_URN_Review_Action_Items.xlsx. Notes 1-6 mark the places where
-a judgment call was made — review them, then delete every block that starts
-with "[EDITORIAL NOTE". Still to be completed by the registrant before
-submission: the submission date, and the stable URLs behind [AIBN-RULES]
-and [AIBN-SCHEMA].]
+review of v1. Five later registrant-driven additions, not reviewer
+requests: the capacity qualifier in Openness and criteria ("of full legal
+capacity", mirroring Registration Rules 4.1); the scale gap placed first
+in Comparison with ISBN, with the matching rewording of the capacity-
+disclaimer bullet under Identifier capacity; sponsored recording under
+Assignment (a holder may record works of third parties that are not
+holders, mirroring Registration Rules 5.6); the degree of AI involvement
+as required, always-published metadata, with the field-level visibility
+election scoped to the description and the AI system fields (mirroring
+Registration Rules 6.1 and 6.5); and the circulation expectation under
+Purpose — works are expected to reach an audience, and an evident
+pattern of internal-only numbering is a removal ground (mirroring
+Registration Rules 9). Item numbers in the notes below refer to the
+companion workbook AIBN_URN_Review_Action_Items.xlsx. Notes 1-6 mark
+the places where a judgment call was made — review them, then delete
+every block that starts with "[EDITORIAL NOTE". Still to be completed
+by the registrant before submission: the submission date, the stable
+URL behind [AIBN-RULES], and publication of the Metadata Schema at the
+URL given in References.]
 
 Namespace ID
 ------------
@@ -142,6 +155,14 @@ which content counts as one work is declared by the registering holder
 and is guided — but not mechanically determined — by the rules in
 Granularity (under Assignment).
 
+Circulation. The namespace serves works that reach an audience. A work
+is expected to be made available — or intended for eventual
+availability — to persons other than the responsible party itself; the
+AIBN system is a registry of works in circulation, not a private
+numbering scheme. Consistent with format-and-completeness validation,
+this expectation is not verified at recording time; it is applied ex
+post, on an evident pattern, under the Registration Rules.
+
 [EDITORIAL NOTE 3: item 4, the core substantive comment. New subsection
 defining "work", placed before the sufficiency argument as the reviewer
 requested. It now defines both the level of identification (work vs.
@@ -162,7 +183,21 @@ Semantics. Later change (your instruction): the manifestation example
 now spans AI-era works as well — a generated image, its digital files,
 its print reproductions — and Granularity no longer enumerates legacy
 formats; both reflect that the namespace serves AI-assisted creation,
-not only legacy publishing.]
+not only legacy publishing. Later change (your instruction): a
+Circulation paragraph follows the exclusions — the namespace serves
+works that reach an audience; use of a reg-segment as an internal
+numbering scheme is a removal ground in the Rules (section 9, ground
+(e)). Deliberately not a fifth eligibility requirement: availability
+is not a work-intrinsic characteristic, and a hard accessibility gate
+would either be verified (breaking format-and-completeness validation)
+or merely declared (deterring nothing), while pre-publication
+assignment stays legitimate (Assignment and Rules 5.2 contemplate
+recording at or before first public use). Boundary to re-check before
+submitting: "persons other than the responsible party itself"
+deliberately leaves internal-but-circulated works (an intranet report
+read by colleagues) outside the ground; a stricter boundary —
+availability beyond the registering organization — was rejected as
+unadministrable (paywalls, member communities, gated distribution).]
 
 Why existing namespaces do not suffice: no existing NID or
 persistent-identifier system combines (1) work-level identification, (2)
@@ -315,17 +350,28 @@ by format-level systems such as ISBN and MAY be cross-referenced in AIBN
 metadata; current availability is a property of resolution targets, not of
 the registry record.
 
-Openness and criteria: Assignment is open. Any natural person or legal
-entity may obtain a reg-segment upon application, subject to published
-criteria: (a) acceptance of the Registration Rules [AIBN-RULES]; (b)
-provision of a private, verifiable contact channel. No fees are charged at
-launch; any future fees will be published in advance in the Registration
-Rules. Assignment is not conditioned on copyright subsistence, publication
-status, nationality, or membership in any publishing organization. Multiple
+Openness and criteria: Assignment is open. Any natural person of full
+legal capacity, or any legal entity, may obtain a reg-segment upon
+application, subject to published criteria: (a) acceptance of the
+Registration Rules [AIBN-RULES]; (b) provision of a private, verifiable
+contact channel. No fees are charged at launch; any future fees will be
+published in advance in the Registration Rules. Assignment is not
+conditioned on copyright subsistence, publication status, nationality,
+or membership in any publishing organization. Multiple
 AIBNs MAY be assigned to the same work by different parties; the Registry
 Operator does not adjudicate such disputes, and metadata MAY cross-reference
 other identifiers for the same work (e.g., ISBN, DOI) or for the same
 responsible party or other persons named in the record (e.g., ISNI, ORCID).
+
+Sponsored recording: A holder MAY record pub-segments for works of third
+parties that are not holders (sponsored recording, see Registration
+Rules [AIBN-RULES]); the third party MAY be named as responsible party.
+This does not delegate the reg-segment assignment function: the Registry
+Operator remains the sole authority for reg-segments, and a sponsored
+third party that later becomes a holder receives its own reg-segment
+under the ordinary application procedure. The Registry Operator MAY
+itself act as a sponsoring holder; reg-segments held by the Registry
+Operator are identified as operator-held in the public documentation.
 
 Metadata and validation:
 
@@ -337,26 +383,33 @@ Metadata and validation:
   it does not imply authorship of, or any legal or moral right in, the work
   (see Non-effect on rights). The responsible party may be, but need not
   be, the work's author or rights holder, and may be the holder that
-  assigned the pub-segment or a party acting at its direction.
+  assigned the pub-segment, a party acting at its direction, or a party
+  on whose behalf the holder records the work (see Sponsored recording,
+  above).
 
   - Minimum metadata at registration: work title; work type (a content type
     from the controlled vocabulary published in the Metadata Schema
     [AIBN-SCHEMA], e.g., text, image, audio, audiovisual, software,
     dataset, multimodal, other); creation date; responsible natural person
-    or entity; private contact channel. Optional: pen name for public
-    display; form of work (e.g., novel, report, image series); language
-    (BCP 47 [RFC5646] tag, e.g., en, fr-CA, zh-Hans; more than one MAY be
-    given for multilingual works); description (short abstract); creation
-    carrier (MIME type of the form in which the work was first fixed, e.g.,
-    text/markdown); AI system name and version; degree of AI involvement
+    or entity; private contact channel; degree of AI involvement
     (self-declared value from a controlled vocabulary published in the
     Metadata Schema [AIBN-SCHEMA], e.g., human-with-ai-tools, ai-assisted,
-    ai-generated, autonomous); references to identifiers for the same work
+    ai-generated, autonomous), which is required and always published — it
+    is the record's core provenance declaration and cannot be elected
+    non-public. Optional: pen name for public display; form of work (e.g.,
+    novel, report, image series); language (BCP 47 [RFC5646] tag, e.g.,
+    en, fr-CA, zh-Hans; more than one MAY be given for multilingual
+    works); description (short abstract); creation carrier (MIME type of
+    the form in which the work was first fixed, e.g., text/markdown); AI
+    system name and version; references to identifiers for the same work
     or its manifestations (e.g., ISBN, DOI); references to identifiers for
     persons named in the record, such as the responsible party or a
-    pen-named author (e.g., ISNI, ORCID). Manifestation data (formats,
-    editions, availability) is intentionally absent from the schema; see
-    Granularity.
+    pen-named author (e.g., ISNI, ORCID). Of the optional fields, only the
+    description and the AI system name and version may be recorded without
+    publication (field-level visibility, Registration Rules [AIBN-RULES]);
+    the remaining optional fields are published when present.
+    Manifestation data (formats, editions, availability) is intentionally
+    absent from the schema; see Granularity.
   - All metadata is as supplied by the holder. In addition, the registry
     itself records the registration date and the lifecycle status of the
     AIBN (active, retracted, or superseded; see Identifier persistence),
@@ -425,10 +478,14 @@ Privacy:
     other potentially identifying metadata are retained only where lawful.
     This trade-off between privacy and identifier persistence is deliberate
     and disclosed.
-  - Optional AI-provenance fields (AI system version, training-data
-    references) raise confidentiality (commercial sensitivity) rather than
-    privacy concerns; their publication is at the holder's discretion, and
-    the public database provides field-level visibility controls.
+  - The optional AI-system field (system name and version) raises
+    confidentiality (commercial sensitivity) rather than privacy concerns;
+    its publication is at the holder's discretion, and the public database
+    provides field-level visibility controls (Registration Rules
+    [AIBN-RULES]). The degree of AI involvement, by contrast, is required
+    and always published: a single value from a small controlled
+    vocabulary, it is the record's core provenance declaration rather
+    than tool detail.
 
 Interoperability
 ----------------
@@ -497,7 +554,8 @@ documents (publish stable URLs before submission):
     appeals, takedown, data-retention policy, escrow terms, resolution
     endpoint syntax.
   - AIBN Metadata Schema [AIBN-SCHEMA] — field definitions, controlled
-    vocabularies (work type; degree of AI involvement), JSON-LD context
+    vocabularies (work type; degree of AI involvement, which is required
+    and always published), JSON-LD context
     (work type maps to dc:type, language to dc:language, description to
     dc:description), MARCXML mapping (work type corresponds to MARC 336,
     content type), HTTPS endpoint query parameters.
@@ -513,8 +571,9 @@ References:
     names for examples), RFC 4848 (U-NAPTR, background only; no DNS
     discovery is specified), RFC 9562 (urn:uuid, cited in the sufficiency
     argument), AIBN Registration Rules (stable URL to be completed before
-    submission) [AIBN-RULES], AIBN Metadata Schema (stable URL to be
-    completed before submission) [AIBN-SCHEMA].
+    submission) [AIBN-RULES], AIBN Metadata Schema
+    (https://aibn.viloocity.press/schema/aibn-record-1.0.0.json)
+    [AIBN-SCHEMA].
 
 Additional Information
 ----------------------
@@ -541,10 +600,17 @@ it. Revert to the original single sentence if you prefer.]
 
 Comparison with ISBN (informative): It is not the case that ISBN
 categorically excludes AI-generated works; such works have obtained ISBNs
-through self-publishing channels. The gaps AIBN addresses are (a) absence of
-AI-provenance metadata, (b) assignment tied to the publishing supply chain,
-and (c) restrictive policies in some channels. AIBN is a supplement to, not
-a replacement for, ISBN.
+through self-publishing channels. The gaps AIBN addresses are, foremost,
+(a) scale: the AIBN namespace is many orders of magnitude larger than the
+ISBN-13 address space (approximately 2 × 10⁹ values under the current 978
+and 979 GS1 prefixes) — a single holder's six-character publication-segment
+sub-space alone approximates the entire ISBN-13 space (see Identifier
+capacity, below) — and is sized to accommodate the observed and projected
+growth of AI-assisted works and of the population eligible to register
+them. The further gaps are (b) absence of AI-provenance metadata, (c)
+assignment tied to the publishing supply chain, and (d) restrictive
+policies in some channels. AIBN is a supplement to, not a replacement for,
+ISBN.
 
 Identifier capacity (informative):
 
@@ -578,11 +644,14 @@ Identifier capacity (informative):
     values (see Syntax). This flexibility is consistent with the designation
     "Name" rather than "Number."
   - Scope of these comparisons: no claim of near-term exhaustion of the ISBN
-    space is made or implied. The comparisons above are illustrative of
-    per-holder and namespace capacity; the ISBN system retains substantial
-    headroom and established extension mechanisms (e.g., additional GS1
-    prefixes, as demonstrated by the addition of 979 alongside 978). AIBN's
-    rationale (see Purpose) does not depend on ISBN capacity.
+    space is made or implied. The comparisons above — including the scale
+    gap under Comparison with ISBN — are illustrative of per-holder and
+    namespace capacity; the ISBN system retains substantial headroom and
+    established extension mechanisms (e.g., additional GS1 prefixes, as
+    demonstrated by the addition of 979 alongside 978). AIBN's rationale
+    (see Purpose) rests on the kinds of works and registrants it serves and
+    on their observed and projected volume, not on any claim about ISBN's
+    remaining headroom.
   - Demand context: The volume of self-published books has grown
     substantially, creating increasing demand for scalable publication and
     identifier-assignment infrastructure. According to Bowker's ISBN-based
