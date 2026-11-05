@@ -101,19 +101,11 @@ All other terms are used as defined in the namespace registration.
 4. Obtaining a reg-segment
 --------------------------
 
-4.1 Who may apply. Any natural person or legal entity may apply. A
-natural-person applicant must be of full legal capacity to accept
-these Rules — as a rule this means at least 18 years of age; where
-the law governing this acceptance grants full capacity earlier (for
-example, on emancipation), that capacity suffices. For a legal-entity
-applicant, the person accepting these Rules declares that they are
-authorized to bind it. The capacity requirement applies to
-applicants, not to the persons a record names: a work by a minor
-author is identified through an adult registrant. Assignment is
-open: it is not conditioned on copyright subsistence, publication
-status, nationality, or membership in any organization, and an
-applicant need not be the author or rights holder of the works it
-intends to identify (see the namespace registration, Openness and
+4.1 Who may apply. Any natural person or legal entity may apply.
+Assignment is open: it is not conditioned on copyright subsistence,
+publication status, nationality, or membership in any organization,
+and an applicant need not be the author or rights holder of the works
+it intends to identify (see the namespace registration, Openness and
 criteria, and Non-effect on rights).
 
 4.2 How to apply. An application is submitted by email to
@@ -126,10 +118,7 @@ application states:
   - a postal address (a business or postal address is accepted; it is
     stored as private data and is not published);
   - the contact channel (4.3); and
-  - a statement that the applicant accepts these Rules, with the
-    declaration of capacity required by 4.1 (full legal capacity of a
-    natural-person applicant; authority to bind a legal-entity
-    applicant).
+  - a statement that the applicant accepts these Rules.
 
 4.3 Contact channel. The contact channel is an email address
 controlled by the applicant. It is verified at application time by a
@@ -470,16 +459,6 @@ these periods occurs only where required by law.
 erasure, or portability are sent to [privacy contact email — to be
 completed] and are answered within one month.
 
-13.6 Privacy policy. The operational details of processing — lawful
-bases, processors and sub-processors, international transfers,
-security measures, and the practical handling of data subject
-requests — are published in the privacy policy at [privacy policy
-URL — to be completed]. The policy may be updated; where the policy
-and this section differ, the provision more protective of the data
-subject prevails, and the commitments of 13.2 to 13.5 change only
-through section 16. No personal data is collected under these Rules
-before the privacy policy is published at that address.
-
 
 14. Continuity: escrow and succession
 -------------------------------------
@@ -557,8 +536,8 @@ References
            Key Words", BCP 14, RFC 8174, May 2017.
 [RFC8141] Saint-Andre, P., Klensin, J., "Uniform Resource Names
            (URNs)", RFC 8141, April 2017.
-[AIBN-SCHEMA] AIBN Metadata Schema
-           (https://aibn.viloocity.press/schema/aibn-record-1.0.0.json).
+[AIBN-SCHEMA] AIBN Metadata Schema (stable URL to be completed
+           before submission).
 
 
 Change log
@@ -567,10 +546,9 @@ Change log
 Version 1 (draft): initial version, prepared together with version 2
 of the namespace registration. Sections 9 and 10 implement the
 good-faith and related-records commitments referenced there. Section
-4.7 (multiple reg-segments), the closing paragraph of section 8
-(no expiry for non-use), the capacity requirement of 4.1, and the
-privacy policy pointer of 13.6 were added during review; 4.5(c) now
-cites section 9's termination block by name, and 5.2 adds the
+4.7 (multiple reg-segments) and the closing paragraph of section 8
+(no expiry for non-use) were added during review; 4.5(c) now cites
+section 9's termination block by name, and 5.2 adds the
 no-backdating rule.
 
 
@@ -608,13 +586,10 @@ section 16 plus RFC 8141 revision procedures.]
 11.3, 11.4, 13.5, and 17 are the placeholders to fill before
 submission (the document's own stable URL, legal name, email
 addresses, application form). The remaining placeholders — the
-API, bulk export, and mirrors URLs, the escrow agent, and the
-privacy policy URL (13.6) — carry no fixed completion date; the
-launch-gating wording was removed at your instruction, matching
-the Continuity change in the namespace registration. One
-sequencing rule survives, for legal rather than timing reasons:
-under 13.6, no personal data is collected before the privacy
-policy is published. See also review item 23: search for "[" before
+API, bulk export, and mirrors URLs and the escrow agent — carry no
+fixed completion date; the launch-gating wording was removed at
+your instruction, matching the Continuity change in the namespace
+registration. See also review item 23: search for "[" before
 submitting.]
 
 [EDITORIAL NOTE 7: 4.7 sets no cap on reg-segments per holder. A
@@ -628,16 +603,3 @@ resolves a latent ambiguity: section 9 speaks of "the reg-segment"
 (singular), so it was unclear whether action on one segment
 reached the holder's others; it does not — governance runs per
 segment.]
-
-[EDITORIAL NOTE 8: two judgment calls this round. Capacity (4.1) is
-tested by declaration, not by age or identity verification —
-checking documents would be the KYC the registry refuses to perform
-(4.4), and a false declaration is reachable under 4.5(b).
-Citizenship was deliberately rejected as the test: majority ages
-differ by jurisdiction, capacity follows the law governing the
-acceptance, and conditioning on nationality would contradict the
-openness commitment. The registration's Openness and criteria
-sentence now carries the same "full legal capacity" wording. The
-final sentence of 13.6 is sequencing that GDPR transparency
-requires (the notice must exist when collection starts), not
-launch-gating; drop it if you prefer the Rules silent on ordering.]
