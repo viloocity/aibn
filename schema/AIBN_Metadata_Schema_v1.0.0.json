@@ -3,7 +3,7 @@
   "$id": "https://aibn.viloocity.press/schema/aibn-record-1.0.0.json",
   "title": "AIBN record",
   "description": "Machine-readable registration template and public record schema for AI Bibliographic Names (AIBN), as specified in the 'aibn' URN namespace registration. The document root validates the public registry record returned by the lookup API. The submission payload (what a holder sends when recording a work) is validated against '#/$defs/submission'. Manifestation data (formats, editions, availability) is deliberately absent; see Granularity in the namespace registration. A retracted record (tombstone) retains at minimum the identifier, its status, and the registration date; further holder metadata is retained only where lawful (Registration Rules 13.3), so the holder-metadata requirements below apply only to active and superseded records. The custom annotation keyword 'x-visibility' marks each field 'public' (published in the record), 'private' (collected, never published), or 'registry' (assigned or maintained by the Registry Operator, not settable by holders). The companion JSON-LD context is carried under 'x-jsonld-context' and published verbatim, as a standalone context document, at https://aibn.viloocity.press/schema/aibn-context-1.0.0.jsonld.",
-  "$comment": "Version 1.0.0 (initial). This schema is the [AIBN-SCHEMA] document cited by the urn:aibn namespace registration and the AIBN Registration Rules. Procedural validations beyond this schema: BCP 47 tag validity and canonicalization (including grandfathered and irregular tags), ISBN-13 group structure and check digit, ISNI and ORCID checksums, MIME type registry membership, and rejection of duplicate pub-segments within a reg-segment (the database rejects duplicates; the Registry Operator assigns reg-segments and never reassigns either segment type). Versioning: additive changes are minor versions; removals or semantic changes are major versions; the version is carried in $id. Registry-maintained fields (aibn, regSegment, status, registrationDate, supersededBy, related) are never accepted from holders; the holder mints pubSegment within its own reg-segment.",
+  "$comment": "Version 1.0.0 (initial). This schema is the [AIBN-SCHEMA] document cited by the urn:aibn namespace registration and the AIBN Registration Rules. Procedural validations beyond this schema: BCP 47 tag validity and canonicalization (including grandfathered and irregular tags), ISBN-13 group structure and check digit, ISNI and ORCID checksums, MIME type registry membership, and rejection of duplicate pub-segments within a reg-segment (the database rejects duplicates; the Registry Operator assigns reg-segments and never reassigns either segment type). Versioning: additive changes are minor versions; removals or semantic changes are major versions; the version is carried in $id. No version has been published; the required, always-public degreeOfAiInvolvement and the visibility election scoped to 'description' and 'aiSystem' were fixed before first publication, so no published version ever differed. Registry-maintained fields (aibn, regSegment, status, registrationDate, supersededBy, related) are never accepted from holders; the holder mints pubSegment within its own reg-segment.",
 
   "type": "object",
   "additionalProperties": false,
@@ -97,7 +97,7 @@
   "allOf": [
     {
       "if": { "properties": { "status": { "enum": ["active", "superseded"] } } },
-      "then": { "required": ["title", "workType", "creationDate", "responsibleParty"] }
+      "then": { "required": ["title", "workType", "creationDate", "responsibleParty", "degreeOfAiInvolvement"] }
     }
   ],
 
@@ -194,7 +194,7 @@
     "degreeOfAiInvolvement": {
       "type": "string",
       "enum": ["human-with-ai-tools", "ai-assisted", "ai-generated", "autonomous"],
-      "description": "Self-declared; not verified by the Registry Operator."
+      "description": "Self-declared; not verified by the Registry Operator. Mandatory and always public (Registration Rules 6.1, 6.5): the record's core provenance declaration; it cannot be elected non-public."
     },
     "bcp47": {
       "type": "string",
@@ -252,14 +252,14 @@
     },
     "visibility": {
       "type": "object",
-      "description": "Holder-elected visibility for optional fields. Set a field to 'private' to record it without publishing it (the non-public fields of Registration Rules 6.5 and 13.2); omitting a field withholds it entirely. Required fields (title, workType, creationDate, responsibleParty) are always public; penName and supersedes are public when present (penName exists for display; supersedes is a cross-reference other records rely on).",
-      "propertyNames": { "enum": ["formOfWork", "language", "description", "creationCarrier", "aiSystem", "degreeOfAiInvolvement", "references"] },
+      "description": "Holder-elected visibility for optional fields. Set a field to 'private' to record it without publishing it (the non-public fields of Registration Rules 6.5 and 13.2); omitting a field withholds it entirely. Only 'description' (free text, the likeliest carrier of incidental personal data) and 'aiSystem' (tool detail that may be commercially or operationally sensitive) may be elected; the election is made at recording time, a non-public marking may be lifted later, and a field recorded public cannot be made non-public afterwards. All other fields are public whenever present: required fields (title, workType, creationDate, responsibleParty, degreeOfAiInvolvement) are always public — the degree of AI involvement is the record's core provenance declaration and cannot be withheld; penName exists for display; references and supersedes are cross-references relied on by other records and by registry features.",
+      "propertyNames": { "enum": ["description", "aiSystem"] },
       "additionalProperties": { "enum": ["public", "private"] }
     },
     "submission": {
       "type": "object",
       "description": "Payload submitted by a holder when recording a work. The holder mints pubSegment within its reg-segment; registry-maintained fields (aibn, regSegment, status, registrationDate, supersededBy, related) are absent by design, and unknown keys are rejected.",
-      "required": ["title", "workType", "creationDate", "responsibleParty", "pubSegment", "contact"],
+      "required": ["title", "workType", "creationDate", "responsibleParty", "pubSegment", "contact", "degreeOfAiInvolvement"],
       "additionalProperties": false,
       "properties": {
         "title": { "$ref": "#/$defs/title" },
