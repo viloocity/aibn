@@ -4,14 +4,12 @@ AIBN Registration Rules
 Operational rules for the assignment and administration of AIBNs in
 the urn:aibn namespace.
 
-Registry Operator: [legal name of the operator — to be completed], a
-sole proprietorship (eenmanszaak) registered in the Netherlands
-(KvK 99461056)
+Registry Operator: viloocity, a sole proprietorship (eenmanszaak) 
+registered in the Netherlands (KvK 99461056)
 Version: 1 (draft)
-Effective date: [to be completed]
-Stable URL of this document: [to be completed before the urn:aibn
-namespace registration is submitted]
-Contact: [role email address — to be completed]
+Effective date: 6 November 2026
+Stable URL of this document: https://aibn.viloocity.press/docs/AIBN_Registration_Rules_v1_draft.txt
+Contact: aibn-admin@viloocity.press
 
 This document is the "AIBN Registration Rules" cited as [AIBN-RULES]
 in the urn:aibn namespace registration. Terms defined there — work,
@@ -122,10 +120,9 @@ organization, and an applicant need not be the author or rights
 holder of the works it intends to identify (see the namespace
 registration, Openness and criteria, and Non-effect on rights).
 
-4.2 How to apply. An application is submitted by email to
-[application email address — to be completed] using the application
-form published at [application form URL — to be completed]. The
-application states:
+4.2 How to apply. An application is submitted using the application
+form published at https://aibn.ciloocity.press/apply.
+The application states:
 
   - the applicant's name and legal form (natural person or legal
     entity, e.g., a company with its registration number);
@@ -413,7 +410,7 @@ checked for format and completeness only, and these grounds operate
 ex post, on evidence.
 
 Abuse reports. Anyone, not only a holder, may report suspected
-abuse to [abuse reporting email — to be completed]. Reports are
+abuse to aibn-abuse@viloocity.press. Reports are
 assessed under the grounds and process of this section; frivolous
 or bad-faith reports are disregarded.
 
@@ -562,9 +559,8 @@ before the privacy policy is published at that address.
 -------------------------------------
 
 14.1 Escrow arrangement. The Registry Operator maintains a written
-data-escrow agreement with an independent escrow agent:
-[escrow agent — to be completed]. The deposit is made at least
-every 30 days and consists of two layers:
+data-escrow agreement with an independent escrow agent. The deposit is 
+made at least every 30 days and consists of two layers:
 the public layer (the complete public database, including the
 database change log, with its checksum manifest) and a sealed layer
 (contact channels and other private data), which is never published
@@ -616,10 +612,9 @@ namespace-change procedures of [RFC8141].
 17. Contact
 -----------
 
-Registry Operator: [legal name of the operator — to be completed],
-eenmanszaak, the Netherlands (KvK 99461056).
-Postal address: [postal or business address — to be completed].
-Email: [role email address — to be completed].
+Registry Operator: viloocity,eenmanszaak, the Netherlands (KvK 99461056).
+Postal address: Willem van Nieuwenhuizenlaan 24, 2493 CC Den Haag, Netherlands
+Email: aibn-admin@viloocity.press
 
 General and data-protection contact: aibn-privacy@viloocity.press.
 
