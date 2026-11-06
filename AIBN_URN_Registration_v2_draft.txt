@@ -1,33 +1,12 @@
 URN NAMESPACE REGISTRATION TEMPLATE: AIBN
 =========================================
 
-[EDITORIAL NOTE 0: This is draft v2, applying all changes requested in the
-review of v1. Five later registrant-driven additions, not reviewer
-requests: the capacity qualifier in Openness and criteria ("of full legal
-capacity", mirroring Registration Rules 4.1); the scale gap placed first
-in Comparison with ISBN, with the matching rewording of the capacity-
-disclaimer bullet under Identifier capacity; sponsored recording under
-Assignment (a holder may record works of third parties that are not
-holders, mirroring Registration Rules 5.6); the degree of AI involvement
-as required, always-published metadata, with the field-level visibility
-election scoped to the description and the AI system fields (mirroring
-Registration Rules 6.1 and 6.5); and the circulation expectation under
-Purpose — works are expected to reach an audience, and an evident
-pattern of internal-only numbering is a removal ground (mirroring
-Registration Rules 9). Item numbers in the notes below refer to the
-companion workbook AIBN_URN_Review_Action_Items.xlsx. Notes 1-6 mark
-the places where a judgment call was made — review them, then delete
-every block that starts with "[EDITORIAL NOTE". Still to be completed
-by the registrant before submission: the submission date, the stable
-URL behind [AIBN-RULES], and publication of the Metadata Schema at the
-URL given in References.]
-
 Namespace ID
 ------------
 
 aibn (formal NID requested). The string conforms to the NID syntax
 requirements of [RFC8141]. The visual and phonetic similarity to the
-registered NID isbn is acknowledged and justified in Additional Information.
+registered NID ISBN is acknowledged and justified in Additional Information.
 
 Namespace Name
 --------------
@@ -40,7 +19,7 @@ Registration Information
 
 Registration version number: 1
 
-Date: [date of submission to IANA — to be completed]
+Date: 8 November 2026
 
 Declared registrant of the namespace (referred to below as the "Registry
 Operator"):
@@ -48,11 +27,6 @@ Operator"):
   - Registrant: viloocity (sole proprietorship — eenmanszaak — registered
     with the Netherlands Chamber of Commerce (KvK), number 99461056)
   - Address: Willem van Nieuwenhuizenlaan 24, 2493 CC Den Haag, Netherlands
-
-[EDITORIAL NOTE 1: item 1 (optional). The legal form is spelled out in
-English because the reviewer had to use outside help to decode "eenmanszaak"
-and the KvK number. Revert to "viloocity (eenmanszaak, KvK 99461056)" if you
-prefer the original compact form.]
 
 Designated contact person:
 
@@ -70,15 +44,10 @@ such works. An AIBN is a technical identifier; registration of an AIBN by an
 entity for a work does not imply or depend on the entity possessing any
 particular right to the work (see Non-effect on rights, below).
 
-Terminology: the "Registry Operator" is the URN registrant named in
+Terminology. The "Registry Operator" is the URN registrant named in
 Registration Information; a "holder" is a party to which the Registry
 Operator has assigned a reg-segment (see Assignment).
 
-[EDITORIAL NOTE 2: item 19. This sentence replaces the Terminology bullet
-that used to sit late in Privacy Considerations, so that "holder" is defined
-before its first use instead of nine uses too late. If you prefer a
-consolidated terminology block, move this paragraph there — but keep it
-early in the document.]
 
 Designation. AIBN expands to AI Bibliographic Name. "Bibliographic" is used
 in its information-science sense and covers resources of any medium, not
@@ -140,7 +109,7 @@ requirements apply:
    periodical or a broadcast channel) is not itself a work under this
    definition; its individually finalized issues, episodes, or pieces may
    each be a work. Continuing resources as such are the domain of the
-   issn namespace.
+   ISSN namespace.
 
 4. Human-consumable experience. The work is designed to be read, heard,
    viewed, or interacted with by an audience, rather than serving as a
@@ -163,49 +132,13 @@ numbering scheme. Consistent with format-and-completeness validation,
 this expectation is not verified at recording time; it is applied ex
 post, on an evident pattern, under the Registration Rules.
 
-[EDITORIAL NOTE 3: item 4, the core substantive comment. New subsection
-defining "work", placed before the sufficiency argument as the reviewer
-requested. It now defines both the level of identification (work vs.
-manifestation) and eligibility (the four requirements). Decisions to
-re-check before submitting: (a) fixation is a threshold condition, not
-the object of identification — this preserves work-level granularity
-against ISBN's manifestation level; (b) there is deliberately no
-commercial-intent test, so assignment stays open per the sufficiency
-argument and Openness and criteria; (c) requirement 2 accepts human
-agency at design time, so works from unattended pipelines are eligible,
-with the pipeline operator named as responsible party; (d) the
-degree-of-involvement vocabulary examples gained the value "autonomous"
-to match. The final sentence still leaves the granularity judgement to
-the registering holder. Consequences applied elsewhere in this draft:
-"creative work" is replaced by "work" (Syntax, Semantics), and the
-manifestation/embodiment/location exposition moved here from Syntax ->
-Semantics. Later change (your instruction): the manifestation example
-now spans AI-era works as well — a generated image, its digital files,
-its print reproductions — and Granularity no longer enumerates legacy
-formats; both reflect that the namespace serves AI-assisted creation,
-not only legacy publishing. Later change (your instruction): a
-Circulation paragraph follows the exclusions — the namespace serves
-works that reach an audience; use of a reg-segment as an internal
-numbering scheme is a removal ground in the Rules (section 9, ground
-(e)). Deliberately not a fifth eligibility requirement: availability
-is not a work-intrinsic characteristic, and a hard accessibility gate
-would either be verified (breaking format-and-completeness validation)
-or merely declared (deterring nothing), while pre-publication
-assignment stays legitimate (Assignment and Rules 5.2 contemplate
-recording at or before first public use). Boundary to re-check before
-submitting: "persons other than the responsible party itself"
-deliberately leaves internal-but-circulated works (an intranet report
-read by colleagues) outside the ground; a stricter boundary —
-availability beyond the registering organization — was rejected as
-unadministrable (paywalls, member communities, gated distribution).]
-
 Why existing namespaces do not suffice: no existing NID or
 persistent-identifier system combines (1) work-level identification, (2)
 open assignment to any natural person or legal entity — not conditioned on
 copyright subsistence, publisher status, or supply-chain participation, (3)
 a metadata model with a mandatory responsible-party field and optional
 AI-provenance fields, and (4) URN-framework persistence and resolution
-semantics. isbn is manifestation-level and supply-chain-administered; issn
+semantics. ISBN is manifestation-level and supply-chain-administered; ISSN
 covers serials; DOI, Handle, and ARK are persistent-identifier systems
 outside the URN framework with their own assignment policies; urn:uuid
 provides uniqueness without an assignment authority, metadata, or
@@ -237,14 +170,6 @@ pub-segment = segment
 segment     = ext-char / 2ext-char / ext-char 1*61seg-char ext-char
 seg-char    = ext-char / "-"
 ext-char    = %x61-7A / DIGIT   ; lowercase ASCII letter or digit
-
-[EDITORIAL NOTE 4: item 6. Strict grammar as proposed by the reviewer, with
-two judgment calls: (a) "2ext-char" (exactly two) replaces the reviewer's
-"2*ext-char" (two or more, unbounded), keeping the 63-character cap
-airtight; (b) under this grammar uppercase is syntactically invalid, which
-resolves the old "grammar permits uppercase" contradiction — Lexical
-equivalence, the Security bullet, and the Length paragraph below are
-aligned accordingly (the 128-character cap is now derivable as 127).]
 
 This grammar states the lexical constraints directly: each segment is 1 to
 63 characters long, begins and ends with an ext-char (a lowercase letter or
@@ -435,13 +360,6 @@ verifiable, and the IANA registration record will be updated per the
 procedures of [RFC8141] (e.g., to mark resolution inactive). Identifiers
 remain syntactically valid URNs regardless of resolution status.
 
-[EDITORIAL NOTE 5: item 17. Restructured per the reviewer: the publication
-duty after a no-successor collapse now sits with the escrow agent, since a
-ceased operator cannot publish. Update: the timing commitment that was
-initially kept at the end of the details sentence has now been dropped as
-well, matching the reviewer's draft. Make sure the actual escrow agreement
-empowers the agent to publish without the Operator's involvement.]
-
 Security and Privacy Considerations
 -----------------------------------
 
@@ -490,7 +408,7 @@ Privacy:
 Interoperability
 ----------------
 
-  - aibn and isbn are distinct NIDs; there is no syntactic conflict within
+  - AIBN and ISBN are distinct NIDs; there is no syntactic conflict within
     the URN framework. The similarity of the strings is a human-factors
     risk, addressed in the NID justification (Additional Information).
     Systems SHOULD display the full urn:aibn: prefix and SHOULD NOT
@@ -570,15 +488,17 @@ References:
     3044 (urn:issn, cited as NID-similarity precedent), RFC 2606 (reserved
     names for examples), RFC 4848 (U-NAPTR, background only; no DNS
     discovery is specified), RFC 9562 (urn:uuid, cited in the sufficiency
-    argument), AIBN Registration Rules (stable URL to be completed before
-    submission) [AIBN-RULES], AIBN Metadata Schema
+    argument), 
+    AIBN Registration Rules (https://aibn.viloocity.press/docs/AIBN_Registration_Rules_v1_draft.txt) 
+    [AIBN-RULES], 
+    AIBN Metadata Schema
     (https://aibn.viloocity.press/schema/aibn-record-1.0.0.json)
     [AIBN-SCHEMA].
 
 Additional Information
 ----------------------
 
-NID confusability justification: aibn is similar to the registered NID isbn.
+NID confusability justification: aibn is similar to the registered NID ISBN.
 The similarity is intentional, and the parallel is explicit in the
 namespace's designation: both namespaces provide bibliographic
 identification, and AI Bibliographic Name deliberately echoes International
@@ -586,17 +506,12 @@ Standard Book Number. The designations also differ at a documentable point —
 ISBN identifiers are fixed-length, digits-only numbers assigned per
 manifestation, whereas AIBNs are variable-length alphanumeric names assigned
 per work, which supports distinguishing the two in prose and documentation.
-Precedent: isbn and issn are both registered NIDs differing by a single
+Precedent: ISBN and ISSN are both registered NIDs differing by a single
 character; any resulting human confusion has been managed without renaming.
 Mitigation: full-prefix display (urn:aibn:) is recommended — ISBNs,
 similarly, are conventionally displayed with an "ISBN" prefix — and the two
 namespaces will never share assignment databases or resolution
 infrastructure.
-
-[EDITORIAL NOTE 6: item 20 (no change was requested). The ISBN-prefix clause
-folds the reviewer's own observation — that ISBNs are never displayed
-without their prefix — into the confusability argument, which strengthens
-it. Revert to the original single sentence if you prefer.]
 
 Comparison with ISBN (informative): It is not the case that ISBN
 categorically excludes AI-generated works; such works have obtained ISBNs
