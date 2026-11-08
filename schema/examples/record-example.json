@@ -1,5 +1,5 @@
 {
-  "@context": "https://aibn.viloocity.press/schema/aibn-context-1.0.0.jsonld",
+  "@context": "https://aibn.viloocity.press/schema/aibn-context-1.1.0.jsonld",
   "@type": "CreativeWork",
   "aibn": "urn:aibn:example:first-light-7b",
   "regSegment": "example",
@@ -10,7 +10,20 @@
   "workType": "text",
   "formOfWork": "novel",
   "creationDate": "2026-10-11",
-  "language": ["en", "nl-NL"],
+  "language": [
+    "en",
+    "nl-NL"
+  ],
+  "subjects": [
+    {
+      "scheme": "THEMA",
+      "code": "FL"
+    },
+    {
+      "scheme": "THEMA",
+      "code": "1D"
+    }
+  ],
   "description": "Second, expanded edition. A lighthouse keeper on a North Sea island begins receiving radio transmissions that appear to be her own future log entries; this edition adds a new afterword and a revised final chapter.",
   "creationCarrier": "text/markdown",
   "aiSystem": {
@@ -28,10 +41,16 @@
     "isni": "0000000144701851"
   },
   "references": {
-    "isbn": ["978-1-11-111111-3"],
-    "doi": ["10.1000/182"]
+    "isbn": [
+      "978-1-11-111111-3"
+    ],
+    "doi": [
+      "10.1000/182"
+    ]
   },
-  "supersedes": ["urn:aibn:example:first-light-7a"],
+  "supersedes": [
+    "urn:aibn:example:first-light-7a"
+  ],
   "related": [
     {
       "aibn": "urn:aibn:test:eerste-licht-01",

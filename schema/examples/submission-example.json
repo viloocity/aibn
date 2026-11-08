@@ -16,7 +16,20 @@
     "isni": "0000000144701851"
   },
   "formOfWork": "novel",
-  "language": ["en", "nl-NL"],
+  "language": [
+    "en",
+    "nl-NL"
+  ],
+  "subjects": [
+    {
+      "scheme": "THEMA",
+      "code": "FL"
+    },
+    {
+      "scheme": "THEMA",
+      "code": "1D"
+    }
+  ],
   "description": "Second, expanded edition. A lighthouse keeper on a North Sea island begins receiving radio transmissions that appear to be her own future log entries; this edition adds a new afterword and a revised final chapter.",
   "creationCarrier": "text/markdown",
   "aiSystem": {
@@ -25,10 +38,16 @@
   },
   "degreeOfAiInvolvement": "ai-assisted",
   "references": {
-    "isbn": ["978-1-11-111111-3"],
-    "doi": ["10.1000/182"]
+    "isbn": [
+      "978-1-11-111111-3"
+    ],
+    "doi": [
+      "10.1000/182"
+    ]
   },
-  "supersedes": ["urn:aibn:example:first-light-7a"],
+  "supersedes": [
+    "urn:aibn:example:first-light-7a"
+  ],
   "visibility": {
     "aiSystem": "public"
   }
