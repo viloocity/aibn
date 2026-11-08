@@ -121,7 +121,7 @@ holder of the works it intends to identify (see the namespace
 registration, Openness and criteria, and Non-effect on rights).
 
 4.2 How to apply. An application is submitted using the application
-form published at https://aibn.ciloocity.press/apply.
+form published at https://aibn.viloocity.press/apply.
 The application states:
 
   - the applicant's name and legal form (natural person or legal
@@ -263,11 +263,23 @@ Registry Operator and cannot be altered by the holder.
 
 6.3 Controlled vocabularies. Work-type and degree-of-AI-involvement
 values MUST come from the controlled vocabularies published in the
-Metadata Schema [AIBN-SCHEMA].
+Metadata Schema [AIBN-SCHEMA]. Subject codes (6.5) are not registry
+vocabularies: they are drawn from external classification schemes
+named in the Metadata Schema — Thema, the registry's default scheme,
+with BISAC codes equally accepted.
 
 6.4 Validation. The Registry Operator validates format and
 completeness only. It does not verify authorship, ownership, or
-factual accuracy, and states this in all outputs.
+factual accuracy, and states this in all outputs. For subject codes,
+validation is scheme-aware: the format of a code is validated in its
+declared scheme, and Thema codes are verified against a snapshot of
+the code list published by EDItEUR, which the registry embeds (the
+list is free to use; the snapshot's version is stated in the Metadata
+Schema, and a code published after the snapshot is rejected until the
+snapshot is updated). The registry does not embed the BISAC Subject
+Headings List, which is licensed by its maintainer, so BISAC codes
+are validated for format only. Suitability of a code for the work is
+metadata as supplied by the holder (6.2) and is not verified.
 
 6.5 Field-level visibility. Two optional fields MAY be marked
 non-public at recording time: the description (free text, the
@@ -278,10 +290,10 @@ returned by the lookup API and are not included in the bulk export.
 All other fields are public whenever present: the minimum metadata
 of 6.1 — including the degree of AI involvement — and the remaining
 optional fields, namely the pen name (given for display), the form
-of work, language, and creation carrier (bibliographic constants of
-the work), and the references and supersedes cross-references, on
-which other records and registry features rely (section 10;
-supersession). A non-public marking may be lifted at any time
+of work, language, creation carrier, and subject codes (bibliographic
+constants of the work), and the references and supersedes
+cross-references, on which other records and registry features rely
+(section 10; supersession). A non-public marking may be lifted at any time
 (entered in the record change log, 5.5), in which case the field is
 published from then on; a field recorded public cannot later be made
 non-public, because it has already entered the bulk export and its
@@ -612,7 +624,7 @@ namespace-change procedures of [RFC8141].
 17. Contact
 -----------
 
-Registry Operator: viloocity,eenmanszaak, the Netherlands (KvK 99461056).
+Registry Operator: viloocity, eenmanszaak, the Netherlands (KvK 99461056).
 Postal address: Willem van Nieuwenhuizenlaan 24, 2493 CC Den Haag, Netherlands
 Email: aibn-admin@viloocity.press
 
@@ -629,7 +641,7 @@ References
 [RFC8141] Saint-Andre, P., Klensin, J., "Uniform Resource Names
            (URNs)", RFC 8141, April 2017.
 [AIBN-SCHEMA] AIBN Metadata Schema
-           (https://aibn.viloocity.press/schema/aibn-record-1.0.0.json).
+           (https://aibn.viloocity.press/schema/aibn-record-1.1.0.json).
 
 
 Change log
@@ -647,227 +659,27 @@ termination block by name, and 5.2 adds the no-backdating rule. The
 degree of AI involvement is mandatory and always public (6.1), and
 the 6.5 election is scoped to the description and the AI system name
 and version, with the lift-anytime rule and the aggregate visibility
-counts added (EDITORIAL NOTE 11). Section 9's process paragraph now
+counts added. Section 9's process paragraph now
 distinguishes operator-initiated action, which keeps notice and the
 14-day response period, from action compelled by binding legal
 process, which follows the period the requirement prescribes, is
-logged as compelled, and is restored if the requirement is lifted
-(EDITORIAL NOTE 12). Section 9 further adds the circulation
+logged as compelled, and is restored if the requirement is lifted.
+Section 9 further adds the circulation
 expectation to the good-faith representation (limb (d)) and a fifth
 removal ground (e) against use of a reg-segment as an internal
 numbering scheme for works made available to no one but the
-responsible party, assessed on the pattern as a whole (EDITORIAL
-NOTE 13). The operational values fixed by the deployment are also
-completed in this version: the lookup, bulk export, and mirrors
-list URLs (11.1, 11.3, 11.4) and the privacy contact email and
-privacy policy URL (13.5, 13.6, section 17); the remaining
-bracketed items are listed in EDITORIAL NOTE 6.
-
-
-[EDITORIAL NOTE 1: launch values to confirm before publication: the
-100-per-24-hour recording limit (5.3; a lower launch value such as
-25-50 is worth considering while hostile mass-registration
-scenarios are live — the elevated-limit path of 5.3 serves
-legitimate bulk volume), the 7/30-day application timelines (4.4),
-the 24-month refusal window (4.5), the 7-day mirror freshness
-(11.4), the retention periods (13.4), and the 90-day fee notice
-(15). Each is a policy default, not a technical necessity.]
-
-[EDITORIAL NOTE 2: status-code design (11.2): 410-with-tombstone for
-retracted was chosen so that withdrawn identifiers remain
-distinguishable from never-assigned ones, which matters for citation
-checking. Confirm at implementation; the alternative (200 with
-status field for all existing records) is simpler for clients.]
-
-[EDITORIAL NOTE 3: escrow design (14.1): the two-layer deposit keeps
-the privacy promise (contact channels are never published) while a
-successor still receives them under seal. Make sure the actual
-escrow agreement matches: publication duty covers the public layer
-only, and the agent can act without the Operator (review item 17).]
-
-[EDITORIAL NOTE 4: appeals (12): the current design is
-reconsider-and-reinstate by the same operator — honest for a
-one-operator registry, and reversible because identifiers are never
-reassigned. If you want an independent layer, name an independent
-appeals advisor in this section before launch.]
-
-[EDITORIAL NOTE 5: precedence sentence in section 1 is deliberately
-narrow (namespace definition vs. procedure) so that neither document
-can quietly override the other. If the designated expert asks how
-conflicts are detected, the answer is the change-log discipline of
-section 16 plus RFC 8141 revision procedures.]
-
-[EDITORIAL NOTE 6: the operational values fixed by the deployment
-are completed: the lookup, bulk export, and mirrors list URLs
-(11.1, 11.3, 11.4) and the privacy contact email and privacy
-policy URL (13.5, 13.6, section 17). Still bracketed, to be
-completed by the registrant: the operator's legal name, postal
-address, and role email (header, section 17); the effective date
-and this document's own stable URL (header; the stable URL is
-gated on submission); the application email and form URL (4.2);
-the abuse-reporting address (section 9); and the escrow agent
-(14). The launch-gating wording was removed at your instruction,
-matching the Continuity change in the namespace registration.
-One sequencing rule survives, for legal rather than timing
-reasons: under 13.6, no personal data is collected before the
-privacy policy is published — now satisfied by the policy
-published at the completed address. See also review item 23:
-search for "[" before submitting.]
-
-[EDITORIAL NOTE 7: 4.7 sets no cap on reg-segments per holder. A
-cap would force the Operator to adjudicate entity groups — is a
-person plus their one-person company one holder or two? do
-subsidiaries count inside a cap? — which is the identity
-verification the registry refuses to perform. Volume is governed
-where it matters: the recording limits of 5.3, with elevated
-limits as the sanctioned route for large volumes. 4.7 also
-resolves a latent ambiguity: section 9 speaks of "the reg-segment"
-(singular), so it was unclear whether action on one segment
-reached the holder's others; it does not — governance runs per
-segment.]
-
-[EDITORIAL NOTE 8: two judgment calls this round. Capacity (4.1) is
-tested by declaration, not by age or identity verification —
-checking documents would be the KYC the registry refuses to perform
-(4.4), and a false declaration is reachable under 4.5(b).
-Citizenship was deliberately rejected as the test: majority ages
-differ by jurisdiction, capacity follows the law governing the
-acceptance, and conditioning on nationality would contradict the
-openness commitment. The registration's Openness and criteria
-sentence now carries the same "full legal capacity" wording. The
-final sentence of 13.6 is sequencing that GDPR transparency
-requires (the notice must exist when collection starts), not
-launch-gating; drop it if you prefer the Rules silent on ordering.]
-
-[EDITORIAL NOTE 9: sponsored recording (5.6) is a registrant-driven
-addition, not a reviewer request; the namespace registration carries
-the matching paragraph under Assignment and the widened responsible-
-party sentence. Sections 3 and 4.1 carry short pointers to 5.6, so
-a party that does not wish to become a holder sees the non-holder
-route before reading past the application procedure; 5.6 itself
-stays where the mechanisms it builds on (5.3, 5.5, sections 8 to
-10) are defined. Design decisions to re-check: (a) the record's contact
-channel belongs to the sponsored third party, not the holder — the
-third party's requests (corrections, retraction) are verified against
-it while execution remains with the holder (5.5, section 8); (b) the
-good-faith representation runs through the third party's declaration
-to the holder, keeping the registry out of the third-party
-relationship (no KYC; format-and-completeness validation only);
-(c) operator-held segments are disclosed as such, so the Operator's
-sponsoring role is visible rather than looking like a vanity
-exception; (d) no identifier is ever migrated out of a sponsoring
-segment — graduation is by new recording under the third party's own
-reg-segment, with the two records treated under section 10; (e) if a
-sponsoring segment later ends (4.6, section 9), its records follow the
-ordinary lifecycle, and the graduation path of (d) is the durable
-remedy for sponsored third parties.]
-
-[EDITORIAL NOTE 10: the misappropriation ground of 9(b) and the
-abuse-report intake are registrant-driven additions, prompted by the
-launch scenario of hostile mass registration of famous works. The
-clean case is works of the pre-AI era: eligibility itself excludes
-them, so the finding rests on the publicly determinable absence of
-AI assistance, not on any judgment of fame or quality. Boundaries
-kept deliberately: (a) lack of affiliation between holder and work
-is not a ground — 4.1 allows recording without affiliation, and
-sponsored recording (5.6) relies on that allowance, so the ground
-targets the pattern and the eligibility violation, never the
-relationship; (b) isolated erroneous or ineligible records remain
-outside these grounds, as before; (c) no ex-ante blocklist or
-notability filter is introduced — the Operator validates format and
-completeness only, and these grounds operate ex post, on evidence;
-(d) the report channel is open to anyone, but frivolous or
-bad-faith reports are disregarded, so the channel cannot itself be
-weaponized as a flood vector. See NOTE 1 on the launch recording
-limit. The abuse-reporting email joins the fill-before-submission
-placeholders (NOTE 6).]
-
-[EDITORIAL NOTE 11: two connected changes to the visibility design.
-The degree of AI involvement (6.1) is now mandatory and always
-public: it is the record's core provenance declaration, a single
-value from a four-value controlled vocabulary with no personal-data
-content, and eligibility under the namespace registration
-presupposes AI involvement, so every registrable work has a value to
-declare; a provenance registry whose provenance summary could be
-hidden would publish everything except what it exists to record.
-Making the declaration mandatory also strengthens 9(a): there is
-always a provenance declaration whose knowing falsity is actionable.
-The 6.5 election is accordingly scoped to the two fields where the
-sensitivity argument is genuine — description (free text, where
-incidental personal data most easily enters a record) and aiSystem
-(beta or NDA-protected tools, competitive pipelines, self-hosted
-setups). The other optional fields stay public when present: penName
-exists for display, and references and supersedes are
-cross-references that other records and registry features rely on
-(section 10, supersession); hiding them would silently degrade
-shared machinery. The lift-anytime / never-hide-later rule reflects
-mirror reality: published data cannot be recalled from bulk-export
-mirrors, so the Rules promise no recall. The aggregate counts of
-non-public markings are a policy default — confirm at launch (see
-NOTE 1). Schema effect: degreeOfAiInvolvement is required in
-#/$defs/submission and in the active/superseded branch of the record
-schema; the visibility election is limited to description and
-aiSystem; the schema $id stays at 1.0.0 because no version has been
-published (the $comment records the pre-publication tightening).
-Retracted records are unaffected in kind: the tombstone minimum of
-13.3 continues to govern what is retained on deletion.]
-
-[EDITORIAL NOTE 12: the 14-day response period of section 9 stays,
-deliberately, as the due-process default for operator-initiated
-removal: it is already short by comparison (GDPR allows one month
-to answer data subject requests, 13.5), and shortening it to handle
-rare urgent cases would weaken the safeguard for every holder. What
-the period cannot do is stand between the Operator and a binding
-external requirement: a court order or an enforceable law-enforcement
-demand that prescribes immediate removal creates a legal duty these
-Rules cannot dilate. Hence the carve-out: compelled action follows
-the period (or the immediacy) the requirement prescribes; the
-change-log entry states that the action was taken to comply with a
-legal requirement, to the extent disclosure is lawful — gag orders
-exist, and the Rules should not force the Operator to choose between
-contempt and its own transparency commitment. Boundaries kept
-deliberate: (a) the carve-out covers only binding external
-requirements, not the Operator's own judgment — whether an abuse
-ground is met remains subject to notice, response, and appeal;
-(b) restoration on lifting or overturn is the default, but only
-unless the Operator's own process independently supports the
-retracted status, so a compelled retraction cannot launder an
-also-abusive record into good standing; (c) an internal appeal
-against a compelled act reaches only the implementation, never the
-requirement, which belongs to the issuing forum; (d) the termination
-block keeps its unconditional notice-and-response period, because
-termination is the Operator's own sanction — a demand aimed at the
-registry as a whole is a continuity event under section 14, not an
-abuse case. Consider naming a standing law-enforcement contact
-procedure in the privacy policy (13.6) at launch.]
-
-[EDITORIAL NOTE 13: the circulation expectation — good-faith limb (d)
-and removal ground (e) of section 9 — is a registrant-driven addition,
-prompted by the concern that holders might use AIBNs as free internal
-identifiers for works that never reach anyone. A hard accessibility
-qualification was considered and rejected: it could operate only
-verified (the Operator checking reachability, which breaks
-format-and-completeness validation and makes the Operator a judge of
-content availability) or self-declared (which deters nothing);
-"accessible" is undefinable at the edges (paywalls, subscriber
-newsletters, intranets, physical-only distribution); and
-pre-publication assignment is a legitimate workflow (5.2 contemplates
-recording at or before first public use), so the strongest verifiable
-rule would be a promise about the future. What the two limbs do
-instead: state the norm where registrants and users read it (the
-namespace registration carries it under Purpose, "Circulation"), and
-give section 9 a pattern-based hook for flagrant cases. Existing
-machinery does the deterring: records are public by default (6.1,
-6.5), so an internal numbering scheme publishes its own internal
-titles, and elevated volumes must surface through 5.3 with a
-statement of purpose. Boundary kept deliberately: the ground reaches
-only works made available to no person other than the responsible
-party — internal-but-circulated works (an intranet report read by
-colleagues) remain outside the ground, because policing gated versus
-public distribution is unadministrable. Honest limitation, stated for
-the record: a future-negative ("never to be made available") is
-nearly impossible to prove, so ground (e) operates as deterrence and
-as a lever for evident patterns (an elevated-limit statement that
-names internal asset tracking, manifestly internal titles at scale),
-not as a guarantee. No schema change follows: no new required field,
-and the examples are untouched.]
+responsible party, assessed on the pattern as a whole. The
+operational values fixed by the deployment are also completed in
+this version: the effective date, stable URL, and contact email of
+this document (header); the application form URL (4.2); the
+abuse-reporting address (section 9); the lookup, bulk export, and
+mirrors list URLs (11.1, 11.3, 11.4); the privacy contact email and
+privacy policy URL (13.5, 13.6, section 17); and the Registry
+Operator's legal name, postal address, and role email (header,
+section 17). The Metadata Schema is at version 1.1.0: the optional
+subjects field (work-level classification in a named scheme —
+Thema, the registry's default scheme, with BISAC codes equally
+accepted, always public and never electable non-public) and its
+scheme-aware validation (6.4: Thema verified against the embedded
+list snapshot, BISAC format only) were added before first
+publication.

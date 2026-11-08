@@ -324,9 +324,12 @@ Metadata and validation:
     non-public. Optional: pen name for public display; form of work (e.g.,
     novel, report, image series); language (BCP 47 [RFC5646] tag, e.g.,
     en, fr-CA, zh-Hans; more than one MAY be given for multilingual
-    works); description (short abstract); creation carrier (MIME type of
-    the form in which the work was first fixed, e.g., text/markdown); AI
-    system name and version; references to identifiers for the same work
+    works); subject codes (work-level classification in a scheme named
+    in the Metadata Schema, e.g., Thema, the registry's default
+    scheme; BISAC codes are equally accepted); description (short
+    abstract); creation carrier (MIME type of the form in which the
+    work was first fixed, e.g., text/markdown); AI system name and
+    version; references to identifiers for the same work
     or its manifestations (e.g., ISBN, DOI); references to identifiers for
     persons named in the record, such as the responsible party or a
     pen-named author (e.g., ISNI, ORCID). Of the optional fields, only the
@@ -341,7 +344,12 @@ Metadata and validation:
     which are assigned and maintained by the Registry Operator and cannot
     be altered by the holder. The Registry Operator validates format and
     completeness only; it does not verify authorship, ownership, or factual
-    accuracy, and states this in all outputs. The Registry Operator MAY
+    accuracy, and states this in all outputs. For subject codes, validation
+    is scheme-aware: the code's format in its declared scheme is always
+    checked, and Thema codes are verified against an embedded snapshot of
+    the list published by EDItEUR (which is free to use); the BISAC Subject
+    Headings List is licensed by its maintainer and is not embedded, so
+    BISAC codes are checked for format only. The Registry Operator MAY
     refuse or retract registrations that are malformed or abusive; an
     appeals process is defined in the Registration Rules [AIBN-RULES].
   - Third-party validation is supported by (a) a public HTTPS lookup API
@@ -473,10 +481,14 @@ documents (publish stable URLs before submission):
     endpoint syntax.
   - AIBN Metadata Schema [AIBN-SCHEMA] — field definitions, controlled
     vocabularies (work type; degree of AI involvement, which is required
-    and always published), JSON-LD context
+    and always published), subject codes (work-level classification in
+    a named scheme, e.g., Thema, with BISAC codes equally accepted;
+    Thema codes are verified against the embedded list snapshot, BISAC
+    codes validated for format only), JSON-LD context
     (work type maps to dc:type, language to dc:language, description to
-    dc:description), MARCXML mapping (work type corresponds to MARC 336,
-    content type), HTTPS endpoint query parameters.
+    dc:description, subject codes to dc:subject), MARCXML mapping (work
+    type corresponds to MARC 336, content type; subject codes to MARC
+    655 with the scheme in $2), HTTPS endpoint query parameters.
   - Governance change log.
 
 References:
@@ -492,7 +504,7 @@ References:
     AIBN Registration Rules (https://aibn.viloocity.press/docs/AIBN_Registration_Rules_v1_draft.txt) 
     [AIBN-RULES], 
     AIBN Metadata Schema
-    (https://aibn.viloocity.press/schema/aibn-record-1.0.0.json)
+    (https://aibn.viloocity.press/schema/aibn-record-1.1.0.json)
     [AIBN-SCHEMA].
 
 Additional Information
