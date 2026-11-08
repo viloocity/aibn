@@ -1,0 +1,546 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aibn.viloocity.press/schema/aibn-record-1.1.0.json",
+  "title": "AIBN record",
+  "description": "Machine-readable registration template and public record schema for AI Bibliographic Names (AIBN), as specified in the 'aibn' URN namespace registration. The document root validates the public registry record returned by the lookup API. The submission payload (what a holder sends when recording a work) is validated against '#/$defs/submission'. Manifestation data (formats, editions, availability) is deliberately absent; see Granularity in the namespace registration. A retracted record (tombstone) retains at minimum the identifier, its status, and the registration date; further holder metadata is retained only where lawful (Registration Rules 13.3), so the holder-metadata requirements below apply only to active and superseded records. The custom annotation keyword 'x-visibility' marks each field 'public' (published in the record), 'private' (collected, never published), or 'registry' (assigned or maintained by the Registry Operator, not settable by holders). The companion JSON-LD context is carried under 'x-jsonld-context' and published verbatim, as a standalone context document, at https://aibn.viloocity.press/schema/aibn-context-1.1.0.jsonld.",
+  "$comment": "Version 1.1.0 (additive; see Versioning below). This schema is the [AIBN-SCHEMA] document cited by the urn:aibn namespace registration and the AIBN Registration Rules. New in 1.1.0: the optional, always-public 'subjects' field — work-level subject classification in a named scheme (Thema, the registry's example scheme; BISAC codes are equally accepted). Version 1.0.0 is the initial version. Procedural validations beyond this schema: BCP 47 tag validity and canonicalization (including grandfathered and irregular tags), ISBN-13 group structure and check digit, ISNI and ORCID checksums, MIME type registry membership, Thema subject-code membership (against the registry's embedded snapshot of the Thema list published by EDItEUR; the BISAC Subject Headings List is licensed by BISG and is not embedded, so BISAC codes are checked for format only), and rejection of duplicate pub-segments within a reg-segment (the database rejects duplicates; the Registry Operator assigns reg-segments and never reassigns either segment type). Versioning: additive changes are minor versions; removals or semantic changes are major versions; the version is carried in $id. No version has been published; the required, always-public degreeOfAiInvolvement and the visibility election scoped to 'description' and 'aiSystem' were fixed before first publication, and 'subjects' was added before first publication, so no published version ever differed. Registry-maintained fields (aibn, regSegment, status, registrationDate, supersededBy, related) are never accepted from holders; the holder mints pubSegment within its own reg-segment.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "aibn",
+    "regSegment",
+    "pubSegment",
+    "status",
+    "registrationDate"
+  ],
+  "properties": {
+    "@context": {
+      "type": [
+        "string",
+        "object"
+      ],
+      "description": "JSON-LD keyword. Carried by the lookup API's default (JSON-LD) representation, where it names the companion context (see x-jsonld-context) by its published URL or embeds it; not part of the stored record data."
+    },
+    "@type": {
+      "type": [
+        "string",
+        "array"
+      ],
+      "items": {
+        "type": "string"
+      },
+      "description": "JSON-LD keyword; optional node type for the described work (e.g., 'CreativeWork', resolved through the companion context); not part of the stored record data."
+    },
+    "aibn": {
+      "$ref": "#/$defs/aibn",
+      "description": "Canonical URN form, all lowercase. The NID is case-insensitive per [RFC8141]; this field stores the canonical form.",
+      "x-visibility": "registry"
+    },
+    "regSegment": {
+      "$ref": "#/$defs/segment",
+      "description": "Opaque registrant code, unique across the namespace, assigned by the Registry Operator; requests for particular values are not accepted.",
+      "x-visibility": "registry"
+    },
+    "pubSegment": {
+      "$ref": "#/$defs/segment",
+      "description": "Work identifier, minted and recorded by the holder; unique within its regSegment (the database rejects duplicates).",
+      "x-visibility": "public"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "retracted",
+        "superseded"
+      ],
+      "default": "active",
+      "description": "Lifecycle status. No status transition ever frees an identifier for reassignment. Transitions are requested by the holder (retraction, supersession) or set by the Registry Operator under the Registration Rules, and are executed by the registry.",
+      "x-visibility": "registry"
+    },
+    "registrationDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date and time of recording. The registration date is the date of recording; records are never backdated (Registration Rules 5.2).",
+      "x-visibility": "registry"
+    },
+    "title": {
+      "$ref": "#/$defs/title",
+      "x-visibility": "public"
+    },
+    "workType": {
+      "$ref": "#/$defs/workType",
+      "x-visibility": "public"
+    },
+    "creationDate": {
+      "$ref": "#/$defs/creationDate",
+      "x-visibility": "public"
+    },
+    "responsibleParty": {
+      "$ref": "#/$defs/responsibleParty",
+      "x-visibility": "public"
+    },
+    "penName": {
+      "$ref": "#/$defs/penName",
+      "x-visibility": "public"
+    },
+    "formOfWork": {
+      "type": "string",
+      "description": "e.g., novel, report, image series.",
+      "x-visibility": "public"
+    },
+    "language": {
+      "$ref": "#/$defs/languageArray",
+      "x-visibility": "public"
+    },
+    "subjects": {
+      "$ref": "#/$defs/subjects",
+      "x-visibility": "public"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Short abstract.",
+      "x-visibility": "public"
+    },
+    "creationCarrier": {
+      "$ref": "#/$defs/mimeType",
+      "x-visibility": "public"
+    },
+    "aiSystem": {
+      "$ref": "#/$defs/aiSystem",
+      "x-visibility": "public"
+    },
+    "degreeOfAiInvolvement": {
+      "$ref": "#/$defs/degreeOfAiInvolvement",
+      "x-visibility": "public"
+    },
+    "references": {
+      "$ref": "#/$defs/references",
+      "x-visibility": "public"
+    },
+    "supersedes": {
+      "$ref": "#/$defs/aibnList",
+      "description": "AIBNs of previous versions superseded by this work. Holder-declared; existence verified by the registry.",
+      "x-visibility": "public"
+    },
+    "supersededBy": {
+      "$ref": "#/$defs/aibnList",
+      "description": "AIBNs of works that supersede this one; derived by the registry from supersedes declarations made in records within the same reg-segment or naming the same responsible party. A cross-holder supersedes declaration does not write into this record.",
+      "x-visibility": "registry"
+    },
+    "related": {
+      "type": "array",
+      "description": "Unverified associations to other records that may describe the same work (Registration Rules 10); computed by the registry, never holder-supplied. Affects neither the status nor the validity of either record.",
+      "x-visibility": "registry",
+      "items": {
+        "type": "object",
+        "required": [
+          "aibn",
+          "registrationDate",
+          "responsibleParty",
+          "associationLabel"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "aibn": {
+            "$ref": "#/$defs/aibn"
+          },
+          "registrationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "responsibleParty": {
+            "$ref": "#/$defs/responsibleParty"
+          },
+          "associationLabel": {
+            "const": "may describe the same work"
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "active",
+              "superseded"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "title",
+          "workType",
+          "creationDate",
+          "responsibleParty",
+          "degreeOfAiInvolvement"
+        ]
+      }
+    }
+  ],
+  "x-jsonld-context": {
+    "@context": {
+      "@version": 1.1,
+      "@vocab": "https://aibn.viloocity.press/vocab/1.0.0/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "schema": "https://schema.org/",
+      "aibn": {
+        "@id": "dcterms:identifier",
+        "@type": "@id"
+      },
+      "title": "dcterms:title",
+      "workType": "dcterms:type",
+      "description": "dcterms:description",
+      "language": "dcterms:language",
+      "subjects": "dcterms:subject",
+      "creationDate": "schema:dateCreated",
+      "name": "schema:name",
+      "isni": "schema:identifier",
+      "orcid": "schema:identifier",
+      "supersedes": {
+        "@id": "dcterms:replaces",
+        "@type": "@id"
+      },
+      "supersededBy": {
+        "@id": "dcterms:isReplacedBy",
+        "@type": "@id"
+      },
+      "related": "dcterms:relation",
+      "CreativeWork": "schema:CreativeWork"
+    },
+    "$comment": "The lookup API's default representation serializes public records with this context; fields without an explicit term resolve under @vocab. This context is published verbatim at https://aibn.viloocity.press/schema/aibn-context-1.1.0.jsonld (AIBN_Context_v1.0.0.jsonld). Subject codes map to dcterms:subject; the nested scheme and code terms resolve under @vocab. Fields that are deliberately AIBN-local — responsibleParty and penName (responsibility is defined by this namespace and deliberately not equated with authorship), degreeOfAiInvolvement, aiSystem, status, regSegment, pubSegment, registrationDate, formOfWork, creationCarrier, references — intentionally resolve under @vocab rather than to approximate standard terms."
+  },
+  "$defs": {
+    "segment": {
+      "type": "string",
+      "pattern": "^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$",
+      "description": "Segment syntax: 1-63 characters, lowercase alphanumerics with internal hyphens and alphanumeric endpoints, per the ABNF in the namespace registration."
+    },
+    "aibn": {
+      "type": "string",
+      "pattern": "^urn:aibn:[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?:[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$",
+      "description": "Canonical URN form, all lowercase (the NID is case-insensitive per [RFC8141])."
+    },
+    "aibnList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/aibn"
+      }
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300
+    },
+    "creationDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Creation date of the work (distinct from registrationDate)."
+    },
+    "languageArray": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/bcp47"
+      },
+      "description": "One or more languages of the work; more than one MAY be given for multilingual works."
+    },
+    "mimeType": {
+      "type": "string",
+      "pattern": "^[a-z0-9!#$&.+^_-]+/[a-z0-9!#$&.+^_-]+$",
+      "description": "MIME type of the form in which the work was first fixed, e.g., text/markdown."
+    },
+    "subjects": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/subjectEntry"
+      },
+      "description": "Work-level subject classification in a named scheme. Thema (as published by EDItEUR, https://www.editeur.org/151/Thema) is the registry's example scheme; BISAC Subject Headings (Book Industry Study Group, https://www.bisg.org/bisac-subject-codes) are equally accepted. Validation is scheme-aware (Registration Rules 6.4): every code is validated for the format of its declared scheme, and Thema codes are additionally verified against the registry's embedded snapshot of the Thema code list (v1.7.0, issued 2026-10-20) — a code published after the snapshot is rejected until the snapshot is updated; the BISAC Subject Headings List is licensed by BISG and is not embedded, so BISAC codes are validated for format only. Whether a code suits the work is the holder's declaration (Registration Rules 6.2). Subject codes are bibliographic constants of the work and are always public (Registration Rules 6.5); they cannot be elected non-public. Example: [{\"scheme\": \"THEMA\", \"code\": \"FL\"}] (Thema: Science fiction)."
+    },
+    "subjectEntry": {
+      "type": "object",
+      "required": [
+        "scheme",
+        "code"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "scheme": {
+          "enum": [
+            "THEMA",
+            "BISAC"
+          ],
+          "description": "The classification scheme of the code. Scheme identifiers are added by new versions of this schema."
+        },
+        "code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 14
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "scheme": {
+              "const": "THEMA"
+            },
+            "code": {
+              "type": "string",
+              "pattern": "^[A-Z1-9][A-Z1-9-]{0,13}$",
+              "description": "Thema code as published by EDItEUR: subject categories begin with a letter, qualifiers with a digit (place 1*, language 2*, time 3*, interest 4*-5*, style 6*); national extensions append hyphenated segments. Uppercase; digits 1-9 only (Thema has no zero). Verified procedurally against the registry's embedded snapshot of the Thema list."
+            }
+          }
+        },
+        {
+          "properties": {
+            "scheme": {
+              "const": "BISAC"
+            },
+            "code": {
+              "type": "string",
+              "pattern": "^[A-Z]{3}[0-9]{6}$",
+              "description": "BISAC Subject Heading code: three letters followed by six digits, e.g. FIC028000. Validated for format only — the BISAC Subject Headings List is licensed by BISG and is not embedded (Registration Rules 6.4)."
+            }
+          }
+        }
+      ],
+      "description": "A subject classification of the work: a scheme identifier and a code in that scheme."
+    },
+    "penName": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Displayed instead of responsibleParty.name in the public record when present."
+        },
+        "isni": {
+          "$ref": "#/$defs/isni"
+        },
+        "orcid": {
+          "$ref": "#/$defs/orcid"
+        }
+      },
+      "description": "Pen name for public display; may carry person identifiers for the person behind the pen name (the registration's optional person-identifier fields)."
+    },
+    "aiSystem": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "description": "AI system involved in creating the work; publication is at the holder's discretion (see 'visibility')."
+    },
+    "workType": {
+      "type": "string",
+      "enum": [
+        "text",
+        "image",
+        "audio",
+        "audiovisual",
+        "software",
+        "dataset",
+        "multimodal",
+        "other"
+      ],
+      "description": "Content type of the work (a property of the work, not of any manifestation)."
+    },
+    "degreeOfAiInvolvement": {
+      "type": "string",
+      "enum": [
+        "human-with-ai-tools",
+        "ai-assisted",
+        "ai-generated",
+        "autonomous"
+      ],
+      "description": "Self-declared; not verified by the Registry Operator. Mandatory and always public (Registration Rules 6.1, 6.5): the record's core provenance declaration; it cannot be elected non-public."
+    },
+    "bcp47": {
+      "type": "string",
+      "pattern": "^[A-Za-z]{2,8}(-[A-Za-z0-9]{1,8})*$",
+      "description": "Language tag approximating BCP 47 [RFC5646] syntax; grandfathered and irregular tags and canonicalization are handled procedurally."
+    },
+    "isni": {
+      "type": "string",
+      "pattern": "^\\d{15}[\\dX]$",
+      "description": "ISNI [ISO27729] identifier; checksum validated procedurally."
+    },
+    "orcid": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{4}-\\d{4}-\\d{3}[\\dX]$",
+      "description": "ORCID identifier; checksum validated procedurally."
+    },
+    "responsibleParty": {
+      "type": "object",
+      "required": [
+        "name",
+        "type"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "natural person",
+            "legal entity"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "isni": {
+          "$ref": "#/$defs/isni"
+        },
+        "orcid": {
+          "$ref": "#/$defs/orcid"
+        }
+      },
+      "description": "The natural person or legal entity named in the record that stands behind the registration; the accountability and contact point for the declared metadata. Need not be the work's author or rights holder."
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "isbn": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^97[89][0-9- ]{10,16}$"
+          },
+          "description": "ISBN-13 references for manifestations of the work, hyphenated or not; group structure and check digit validated procedurally. A work may reference several ISBNs (one per manifestation)."
+        },
+        "doi": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^10\\.[0-9]{4,9}/\\S+$"
+          }
+        }
+      },
+      "description": "Identifiers for the same work or its manifestations (ISBN, DOI); identifiers for persons named in the record (ISNI, ORCID) are carried on responsibleParty and penName."
+    },
+    "contact": {
+      "type": "object",
+      "required": [
+        "email"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "postalAddress": {
+          "type": "string"
+        }
+      },
+      "description": "Private, verifiable contact channel. Never published; never included in the lookup API, the bulk export, or the escrow public layer.",
+      "x-visibility": "private"
+    },
+    "visibility": {
+      "type": "object",
+      "description": "Holder-elected visibility for optional fields. Set a field to 'private' to record it without publishing it (the non-public fields of Registration Rules 6.5 and 13.2); omitting a field withholds it entirely. Only 'description' (free text, the likeliest carrier of incidental personal data) and 'aiSystem' (tool detail that may be commercially or operationally sensitive) may be elected; the election is made at recording time, a non-public marking may be lifted later, and a field recorded public cannot be made non-public afterwards. All other fields are public whenever present: required fields (title, workType, creationDate, responsibleParty, degreeOfAiInvolvement) are always public — the degree of AI involvement is the record's core provenance declaration and cannot be withheld; penName exists for display; references and supersedes are cross-references relied on by other records and by registry features.",
+      "propertyNames": {
+        "enum": [
+          "description",
+          "aiSystem"
+        ]
+      },
+      "additionalProperties": {
+        "enum": [
+          "public",
+          "private"
+        ]
+      }
+    },
+    "submission": {
+      "type": "object",
+      "description": "Payload submitted by a holder when recording a work. The holder mints pubSegment within its reg-segment; registry-maintained fields (aibn, regSegment, status, registrationDate, supersededBy, related) are absent by design, and unknown keys are rejected.",
+      "required": [
+        "title",
+        "workType",
+        "creationDate",
+        "responsibleParty",
+        "pubSegment",
+        "contact",
+        "degreeOfAiInvolvement"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "$ref": "#/$defs/title"
+        },
+        "workType": {
+          "$ref": "#/$defs/workType"
+        },
+        "creationDate": {
+          "$ref": "#/$defs/creationDate"
+        },
+        "responsibleParty": {
+          "$ref": "#/$defs/responsibleParty"
+        },
+        "pubSegment": {
+          "$ref": "#/$defs/segment",
+          "description": "Work identifier minted by the holder; must be unique within the holder's reg-segment; the database rejects duplicates."
+        },
+        "contact": {
+          "$ref": "#/$defs/contact"
+        },
+        "penName": {
+          "$ref": "#/$defs/penName"
+        },
+        "formOfWork": {
+          "type": "string"
+        },
+        "language": {
+          "$ref": "#/$defs/languageArray"
+        },
+        "subjects": {
+          "$ref": "#/$defs/subjects"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "creationCarrier": {
+          "$ref": "#/$defs/mimeType"
+        },
+        "aiSystem": {
+          "$ref": "#/$defs/aiSystem"
+        },
+        "degreeOfAiInvolvement": {
+          "$ref": "#/$defs/degreeOfAiInvolvement"
+        },
+        "references": {
+          "$ref": "#/$defs/references"
+        },
+        "supersedes": {
+          "$ref": "#/$defs/aibnList"
+        },
+        "visibility": {
+          "$ref": "#/$defs/visibility"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "https://aibn.viloocity.press/vocab/1.0.0/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "schema": "https://schema.org/",
+    "aibn": {
+      "@id": "dcterms:identifier",
+      "@type": "@id"
+    },
+    "title": "dcterms:title",
+    "workType": "dcterms:type",
+    "description": "dcterms:description",
+    "language": "dcterms:language",
+    "subjects": "dcterms:subject",
+    "creationDate": "schema:dateCreated",
+    "name": "schema:name",
+    "isni": "schema:identifier",
+    "orcid": "schema:identifier",
+    "supersedes": {
+      "@id": "dcterms:replaces",
+      "@type": "@id"
+    },
+    "supersededBy": {
+      "@id": "dcterms:isReplacedBy",
+      "@type": "@id"
+    },
+    "related": "dcterms:relation",
+    "CreativeWork": "schema:CreativeWork"
+  }
+}
